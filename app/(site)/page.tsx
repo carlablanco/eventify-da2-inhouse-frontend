@@ -1,14 +1,11 @@
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Eventify - Internal portal",
-};
-
 export default function Home() {
   return (
-    <main>
-        <h1>Welcome to Eventify</h1>
-        <p>Eventify is an internal portal for managing events.</p>
-    </main>
+    <body>
+      <main>
+        <div className={"flex items-center justify-center my-24"}>
+          <h1 className={"text-4xl"}>Welcome to Eventify</h1>
+        </div>
+      </main>
+    </body>
   );
 }
