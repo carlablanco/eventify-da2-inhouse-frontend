@@ -1,3 +1,4 @@
+// layout.tsx (RootLayout)
 import React, { ReactNode } from 'react';
 import Providers from '@/components/layout/providers';
 import { Toaster } from '@/components/ui/toaster';
