@@ -1,17 +1,17 @@
-// Protecting routes with next-auth
-// https://next-auth.js.org/configuration/nextjs#middleware
-// https://nextjs.org/docs/app/building-your-application/routing/middleware
+// middleware.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { parse } from 'cookie'; // Para analizar cookies
 
-import NextAuth from 'next-auth';
-import authConfig from './auth.config';
+export default function middleware(req: NextRequest) {
+  const cookies = parse(req.headers.get('cookie') || '');
+  const token = cookies.token; // Asumiendo que guardas el token en una cookie
 
-const { auth } = NextAuth(authConfig);
-
-export default auth((req) => {
-  if (!req.auth) {
-    const url = req.url.replace(req.nextUrl.pathname, '/');
-    return Response.redirect(url);
+  // Verifica si el token existe
+  if (!token) {
+    const url = req.nextUrl.origin; // Redirige a la página de inicio
+    return NextResponse.redirect(url);
   }
-});
+}
 
+// Define las rutas que quieres proteger
 export const config = { matcher: ['/dashboard/:path*'] };
