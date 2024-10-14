@@ -4,8 +4,8 @@ import React from 'react';
 import { EmployeeForm } from '@/components/forms/employee-form';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Employee', link: '/dashboard/employee' },
+  { title: 'Panel', link: '/dashboard' },
+  { title: 'Empleados', link: '/dashboard/employee' },
   { title: 'Create', link: '/dashboard/employee/create' }
 ];
 

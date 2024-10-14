@@ -27,19 +27,19 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'NAME'
+    header: 'NOMBRE'
   },
   {
     accessorKey: 'company',
-    header: 'COMPANY'
+    header: 'EMPRESA'
   },
   {
     accessorKey: 'role',
-    header: 'ROLE'
+    header: 'ROL'
   },
   {
     accessorKey: 'status',
-    header: 'STATUS'
+    header: 'ESTADO'
   },
   {
     id: 'actions',

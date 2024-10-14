@@ -4,8 +4,8 @@ import { UserClient } from '@/components/tables/user-tables/client';
 import { users } from '@/constants/data';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'User', link: '/dashboard/user' }
+  { title: 'Panel', link: '/dashboard' },
+  { title: 'Usuarios', link: '/dashboard/user' }
 ];
 export default function page() {
   return (

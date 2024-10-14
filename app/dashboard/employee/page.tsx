@@ -11,8 +11,8 @@ import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Employee', link: '/dashboard/employee' }
+  { title: 'Panel', link: '/dashboard' },
+  { title: 'Empleados', link: '/dashboard/employee' }
 ];
 
 type paramsProps = {
@@ -42,8 +42,8 @@ export default async function page({ searchParams }: paramsProps) {
 
         <div className="flex items-start justify-between">
           <Heading
-            title={`Employee (${totalUsers})`}
-            description="Manage employees (Server side table functionalities.)"
+            title={`Empleados (${totalUsers})`}
+            description="Administrar empleados (funcionalidades de la mesa auxiliar del servidor)."
           />
 
           <Link

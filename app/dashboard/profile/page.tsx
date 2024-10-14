@@ -3,8 +3,8 @@ import { CreateProfileOne } from '@/components/forms/user-profile-stepper/create
 import PageContainer from '@/components/layout/page-container';
 
 const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Profile', link: '/dashboard/profile' }
+  { title: 'Panel', link: '/dashboard' },
+  { title: 'Perfil', link: '/dashboard/profile' }
 ];
 
 export default function page() {

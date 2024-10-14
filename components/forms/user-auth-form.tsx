@@ -39,26 +39,30 @@ function UserAuthForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label>Email:</label>
+      <div className="divLogin">
+        <label>Correo:</label>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className="inputLogin"
         />
       </div>
-      <div>
-        <label>Password:</label>
+      <div className="divLogin">
+        <label>Contraseña:</label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="inputLogin"
         />
       </div>
-      {error && <p>{error}</p>}
-      <button type="submit">Login</button>
+      {error && <p className="colorRed">{error}</p>}
+      <button type="submit" className="buttonLogin">
+        Ingresar
+      </button>
     </form>
   );
 }
