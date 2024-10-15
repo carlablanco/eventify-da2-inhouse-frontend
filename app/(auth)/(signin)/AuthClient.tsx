@@ -19,6 +19,11 @@ export default function AuthClient() {
     }
   }, [isAuthenticated, router]);
 
+  // Si el usuario no está autenticado, mostrar el formulario de inicio de sesión
+  if (isAuthenticated) {
+    return null; // O un loader o algo que indique que se está redirigiendo
+  }
+
   return (
     <div className="flex h-full items-center p-4 lg:p-8">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">

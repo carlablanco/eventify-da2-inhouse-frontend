@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
   if (isAuthenticated) {
     const user = { email };
     const token = jwt.sign(user, SECRET_KEY, { expiresIn: '1h' });
-
     store.dispatch(signIn({ user: user.email, token }));
 
     // Puedes establecer la cookie aquí si es necesario (opcional)

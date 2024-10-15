@@ -137,7 +137,7 @@ export const navItems: NavItem[] = [
     label: 'profile'
   },
   {
-    title: 'Login',
+    title: 'Cerrar Sesion',
     href: '/',
     icon: 'login',
     label: 'login'

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,7 +10,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,15 +18,31 @@ import { useRouter } from 'next/navigation';
 
 export function UserNav() {
   const dispatch = useDispatch();
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true); // Estado para manejar la carga de autenticación
+  const isAuthenticated = useSelector(
+    (state: any) => state.auth.isAuthenticated
+  );
   const router = useRouter();
-  const user = useSelector((state: any) => state.auth.user);
+  const user = useSelector((state: any) => state.auth.user); // Obtener los datos del usuario desde Redux
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setIsCheckingAuth(false); // Autenticación confirmada
+    } else {
+      setIsCheckingAuth(false); // No autenticado o autenticación fallida
+    }
+  }, [isAuthenticated, router]);
 
   const handleSignOut = () => {
     dispatch(reduxSignOut());
     router.push('/');
   };
 
-  if (user) {
+  if (isCheckingAuth) {
+    return null; // O puedes mostrar un skeleton o spinner mientras verificas
+  }
+
+  if (isAuthenticated && user) {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -48,29 +64,19 @@ export function UserNav() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>
-              Profile
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Billing
-              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Settings
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>New Team</DropdownMenuItem>
+            <DropdownMenuItem>Perfil</DropdownMenuItem>
+            <DropdownMenuItem>Suscripción</DropdownMenuItem>
+            <DropdownMenuItem>Configuración</DropdownMenuItem>
+            <DropdownMenuItem>Nuevo Equipo</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut}>
-            Log out
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+            Cerrar sesión
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
   }
 
-  return null;
+  return null; // No mostrar el menú si no hay usuario logueado
 }
