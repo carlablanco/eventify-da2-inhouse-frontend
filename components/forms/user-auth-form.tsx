@@ -1,21 +1,21 @@
 // UserAuthForm.tsx
-import { useDispatch } from 'react-redux';
-import { signIn } from '@/store/authSlice'; // Ajusta la ruta según tu estructura de carpetas
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUserContext } from '@/contexts/UserContext';
 
 function UserAuthForm() {
-  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // Estado de carga
+  const [loading, setLoading] = useState(false);
+  const [check, setCheck] = useState(false);
+  const { setUser, setToken } = useUserContext();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true); // Activar estado de carga
-    setError(''); // Limpiar el mensaje de error al tocar "Ingresar"
+    setLoading(true);
+    setError('');
 
     try {
       const response = await fetch('/api/auth/login', {
@@ -29,20 +29,30 @@ function UserAuthForm() {
       const data = await response.json();
 
       if (response.ok) {
-        dispatch(signIn({ user: data.user, token: data.token }));
-        document.cookie = `token=${data.token}; path=/;`; // Asegúrate de que el token se establezca como cookie
-        router.push('/dashboard');
+        sessionStorage.setItem('user', JSON.stringify(data.user));
+        sessionStorage.setItem('token', data.token);
+        setUser(data.user);
+        setToken(data.token);
+        setCheck(true);
       } else {
-        setError(data.message || 'Invalid credentials'); // Mostrar error
+        setError(data.message || 'Invalid credentials');
       }
     } catch (err) {
       console.error('Login failed:', err);
       setError('An unexpected error occurred.');
     } finally {
-      setLoading(false); // Desactivar estado de carga
+      setLoading(false);
     }
   };
-
+  useEffect(() => {}, [check]);
+  if (check) {
+    router.push('/dashboard');
+    return (
+      <div className="flex h-full items-center p-4 lg:p-8">
+        <h1>Cargando...</h1>
+      </div>
+    );
+  }
   return (
     <form onSubmit={handleSubmit}>
       <div className="divLogin">

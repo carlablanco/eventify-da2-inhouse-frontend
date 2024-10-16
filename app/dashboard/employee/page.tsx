@@ -1,3 +1,5 @@
+'use client';
+
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
 import { columns } from '@/components/tables/employee-tables/columns';
@@ -6,9 +8,12 @@ import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { Employee } from '@/constants/data';
+import { useUserContext } from '@/contexts/UserContext';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { useEffect } from 'react';
 
 const breadcrumbItems = [
   { title: 'Panel', link: '/dashboard' },
