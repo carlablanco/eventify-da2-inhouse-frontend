@@ -1,4 +1,3 @@
-// AuthClient.tsx
 'use client';
 
 import UserAuthForm from '@/components/forms/user-auth-form';
@@ -23,14 +22,14 @@ export default function AuthClient() {
             href="/terms"
             className="underline underline-offset-4 hover:text-primary"
           >
-            Terminos y condiciones
+            Términos y condiciones
           </Link>{' '}
           y{' '}
           <Link
             href="/privacy"
             className="underline underline-offset-4 hover:text-primary"
           >
-            Politicas de Privacidad
+            Políticas de Privacidad
           </Link>
           .
         </p>
