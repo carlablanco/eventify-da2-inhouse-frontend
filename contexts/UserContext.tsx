@@ -1,8 +1,8 @@
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 interface UserContextType {
-  user: Record<string, any>; // 'user' puede ser cualquier objeto
+  user: Record<string, any>;
   setUser: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   isLogged: boolean;
   setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,7 +25,6 @@ export const UserProvider = ({ children }: any) => {
   const [user, setUser] = useState<Record<string, any>>({});
   const [isLogged, setIsLogged] = useState(false);
   const [token, setToken] = useState('');
-  const router = useRouter();
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('token');
