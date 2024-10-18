@@ -1,35 +1,57 @@
-// UserAuthForm.tsx
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
-import { loginUser, LoginRequest } from '@/app/api/api'; // Importa la función de autenticación
+import { loginUser } from '@/app/api/api';
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { useToast } from '@/components/ui/use-toast';
+
+const formSchema = z.object({
+  email: z.string().email({ message: 'Ingresá un correo electrónico válido' }),
+  password: z.string()
+});
+
+type UserFormValue = z.infer<typeof formSchema>;
 
 function UserAuthForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [check, setCheck] = useState(false);
   const { setUser, setToken } = useUserContext();
   const router = useRouter();
+  const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm<UserFormValue>({
+    resolver: zodResolver(formSchema)
+  });
+
+  const onSubmit = async (formValues: UserFormValue) => {
     setLoading(true);
-    setError('');
 
     try {
-      const credentials: LoginRequest = { email, password };
-      const data = await loginUser(credentials); // Usa la función loginUser desde api.ts
-
+      const data = await loginUser(formValues);
       sessionStorage.setItem('user', JSON.stringify(data.user));
       sessionStorage.setItem('token', data.token);
       setUser(data.user);
       setToken(data.token);
       setCheck(true);
     } catch (err: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Algo salió mal.',
+        description: 'Hubo un problema al ingresar. Intentá nuevamente.'
+      });
       console.error('Login failed:', err);
-      setError(err.message || 'An unexpected error occurred.');
     } finally {
       setLoading(false);
     }
@@ -50,37 +72,44 @@ function UserAuthForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="divLogin">
-        <label>Correo:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="inputLogin"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Correo electrónico</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="Ingresa tu email"
+                  disabled={loading}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div className="divLogin">
-        <label>Contraseña:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="inputLogin"
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Contraseña</FormLabel>
+              <FormControl>
+                <Input type="password" disabled={loading} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      {error && <p className="colorRed">{error}</p>}
-      <button
-        id="buttonLogin"
-        type="submit"
-        className="buttonLogin"
-        disabled={loading}
-      >
-        {loading ? 'Cargando...' : 'Ingresar'}
-      </button>
-    </form>
+        <Button disabled={loading} className="ml-auto w-full" type="submit">
+          Ingresar
+        </Button>
+      </form>
+    </Form>
   );
 }
 

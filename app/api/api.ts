@@ -4,7 +4,6 @@ export interface LoginResponse {
     id: string;
     email: string;
     name: string;
-    // Agrega más propiedades según tu API
   };
   token: string;
 }
