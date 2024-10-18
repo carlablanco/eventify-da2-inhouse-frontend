@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 interface UserContextType {
@@ -26,53 +26,57 @@ export const UserProvider = ({ children }: any) => {
   const [isLogged, setIsLogged] = useState(false);
   const [token, setToken] = useState('');
   const router = useRouter();
-  // Obtener token de sessionStorage cuando el componente se monta
-  /*useEffect(() => {
-    const storedToken = sessionStorage.getItem('token');
-    const storedUser = sessionStorage.getItem('user') ?? '';
-    setToken(storedToken ?? '');
-    if (!storedToken) {
-      console.log('No hay token en sessionStorage');
-    }
-    if (!storedUser) {
-      console.log('No hay token en sessionStorage');
-    } else {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []); // Solo ejecuta cuando el componente se monta
-*/
-  useEffect(() => {
-    if (token) {
-      const isValidToken = token.length > 10; // Ejemplo simple: token de longitud mayor a 10 es válido
-      setIsLogged(isValidToken);
-    }
-  }, [token]);
 
-  // Verificar el token con la API cuando 'token' cambia
   useEffect(() => {
-    if (token) {
-      fetch(`http://localhost:8000/api/usuarios/jwt`, {
+    const storedToken = sessionStorage.getItem('token');
+    const storedUser = sessionStorage.getItem('user');
+    const currentPath =
+      typeof window !== 'undefined' ? window.location.pathname : '';
+
+    setToken(storedToken ?? '');
+
+    if (!storedToken && currentPath !== '/') {
+      redirect('/');
+    } else if (storedToken) {
+      fetch(`http://localhost:3001/api/v1/login/token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ jwt: token })
+        body: JSON.stringify({ jwt: storedToken })
       })
         .then((response) => {
           const isValid = response.status === 200;
+          console.log('Token');
           setIsLogged(isValid);
           if (isValid) {
             console.log('Token válido, usuario autenticado');
           } else {
             console.log('Token inválido o expirado');
+            if (currentPath !== '/') {
+              redirect('/');
+            }
           }
         })
         .catch((error) => {
-          //console.log('Error al validar el token:', error);
-          //setIsLogged(false);
+          console.log('Error al validar el token:', error);
+          setIsLogged(false);
+          if (currentPath !== '/') {
+            redirect('/');
+          }
         });
     }
-  }, [token]); // Solo ejecuta cuando 'token' cambia
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      const isValidToken = token.length > 10;
+      setIsLogged(isValidToken);
+    }
+  }, [token]);
 
   return (
     <UserContext.Provider

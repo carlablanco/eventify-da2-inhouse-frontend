@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
+import { loginUser, LoginRequest } from '@/app/api/api'; // Importa la función de autenticación
 
 function UserAuthForm() {
   const [email, setEmail] = useState('');
@@ -18,41 +19,36 @@ function UserAuthForm() {
     setError('');
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-      });
+      const credentials: LoginRequest = { email, password };
+      const data = await loginUser(credentials); // Usa la función loginUser desde api.ts
 
-      const data = await response.json();
-
-      if (response.ok) {
-        sessionStorage.setItem('user', JSON.stringify(data.user));
-        sessionStorage.setItem('token', data.token);
-        setUser(data.user);
-        setToken(data.token);
-        setCheck(true);
-      } else {
-        setError(data.message || 'Invalid credentials');
-      }
-    } catch (err) {
+      sessionStorage.setItem('user', JSON.stringify(data.user));
+      sessionStorage.setItem('token', data.token);
+      setUser(data.user);
+      setToken(data.token);
+      setCheck(true);
+    } catch (err: any) {
       console.error('Login failed:', err);
-      setError('An unexpected error occurred.');
+      setError(err.message || 'An unexpected error occurred.');
     } finally {
       setLoading(false);
     }
   };
-  useEffect(() => {}, [check]);
+
+  useEffect(() => {
+    if (check) {
+      router.push('/dashboard');
+    }
+  }, [check]);
+
   if (check) {
-    router.push('/dashboard');
     return (
       <div className="flex h-full items-center p-4 lg:p-8">
         <h1>Cargando...</h1>
       </div>
     );
   }
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="divLogin">
