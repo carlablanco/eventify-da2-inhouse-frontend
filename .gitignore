@@ -2,3 +2,14 @@
 .next
 node_modules
 out
+
+# Terraform files
+*.tfstate         # Terraform state files
+*.tfstate.backup  # Backup of the last state file
+.terraform/       # Terraform working directory
+*.tfvars          # Terraform variable files (often contain sensitive data)
+*.tfvars.json     # JSON format for variable files (often contain sensitive data)
+
+# Optional: Local overrides
+override.tf       # Override files
+override.tf.json  # Override files in JSON format
