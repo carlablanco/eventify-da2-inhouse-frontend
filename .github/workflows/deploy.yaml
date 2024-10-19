@@ -25,11 +25,16 @@ jobs:
         working-directory: infra
         run: terraform init
 
+      - name: Create Terraform Variables File
+        working-directory: infra
+        run: |
+          echo "aws_access_key_id = \"${{ secrets.AWS_ACCESS_KEY_ID }}\"" > terraform.tfvars
+          echo "aws_secret_access_key = \"${{ secrets.AWS_SECRET_ACCESS_KEY }}\"" >> terraform.tfvars
+          echo "aws_session_token = \"${{ secrets.AWS_SESSION_TOKEN }}\"" >> terraform.tfvars
+  
       - name: Terraform Apply (Create ECR Repository)
         working-directory: infra
-        env:
-          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var-file="terraform.tfvars"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
