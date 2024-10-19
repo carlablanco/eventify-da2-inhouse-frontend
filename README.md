@@ -1,4 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Overview
+
+This uses the following stack:
+
+- Framework - [Next.js 14](https://nextjs.org/13)
+- Styling - [Tailwind CSS](https://tailwindcss.com)
+- Components - [Shadcn-ui](https://ui.shadcn.com)
+- Schema Validations - [Zod](https://zod.dev)
+- State Management - [Zustand](https://zustand-demo.pmnd.rs)
+- Tables - [Tanstack Tables](https://ui.shadcn.com/docs/components/data-table)
+- Forms - [React Hook Form](https://ui.shadcn.com/docs/components/form)
+- Linting - [ESLint](https://eslint.org)
+- Pre-commit Hooks - [Husky](https://typicode.github.io/husky/)
+- Formatting - [Prettier](https://prettier.io)
 
 ## Getting Started
 

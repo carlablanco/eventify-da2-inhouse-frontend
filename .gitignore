@@ -1,15 +1,49 @@
-.idea
-.next
-node_modules
-out
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Terraform files
-*.tfstate         # Terraform state files
-*.tfstate.backup  # Backup of the last state file
-.terraform/       # Terraform working directory
-*.tfvars          # Terraform variable files (often contain sensitive data)
-*.tfvars.json     # JSON format for variable files (often contain sensitive data)
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-# Optional: Local overrides
-override.tf       # Override files
-override.tf.json  # Override files in JSON format
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# ide
+/.idea
+/.vscode
+
+# misc
+/.DS_Store
+/.env.local
+/.env.development.local
+/.env.test.local
+/.env.production.local
+/cypress/videos
+/cypress/screenshots
+/cypress/downloads
