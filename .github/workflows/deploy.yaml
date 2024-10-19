@@ -11,7 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success'}}
 
     steps:
       - name: Checkout code
@@ -44,7 +44,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t frontend-repo .
+          docker build -t frontend-repo -f infra/Dockerfile .
           docker tag frontend-repo:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/frontend-repo:latest
 
       - name: Push Docker image to ECR
