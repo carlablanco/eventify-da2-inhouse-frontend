@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_ecr_repository" "ecr_repo" {
-  name = "repo-frontend"
+  name = "frontend-repo"
   image_scanning_configuration {
     scan_on_push = true
   }
