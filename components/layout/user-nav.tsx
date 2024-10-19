@@ -47,7 +47,7 @@ export function UserNav() {
           <DropdownMenuItem>Perfil</DropdownMenuItem>
           <DropdownMenuItem>Suscripción</DropdownMenuItem>
           <DropdownMenuItem>Configuración</DropdownMenuItem>
-          <DropdownMenuItem>Nuevo Equipo</DropdownMenuItem>
+          <DropdownMenuItem>Nuevo equipo</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleSignOut()}>

@@ -12,7 +12,7 @@ export default function AuthClient() {
             Iniciar sesión
           </h1>
           <p className="text-sm text-muted-foreground">
-            Ingrese su correo electrónico a continuación para crear su cuenta
+            Ingresa con tus credenciales para continuar a la plataforma
           </p>
         </div>
         <UserAuthForm />

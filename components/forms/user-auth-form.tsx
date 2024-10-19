@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
 import { loginUser } from '@/api/api';
+import { LoaderIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -16,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useToast } from '@/components/ui/use-toast';
+import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Ingresá un correo electrónico válido' }),
@@ -63,14 +65,6 @@ function UserAuthForm() {
     }
   }, [check]);
 
-  if (check) {
-    return (
-      <div className="flex h-full items-center p-4 lg:p-8">
-        <h1>Cargando...</h1>
-      </div>
-    );
-  }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
@@ -106,7 +100,7 @@ function UserAuthForm() {
           )}
         />
         <Button disabled={loading} className="ml-auto w-full" type="submit">
-          Ingresar
+          {loading ? <LoaderIcon className={cn('animate-spin')} /> : 'Ingresar'}
         </Button>
       </form>
     </Form>

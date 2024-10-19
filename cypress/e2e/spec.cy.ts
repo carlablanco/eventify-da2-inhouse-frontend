@@ -30,6 +30,20 @@ describe('Tests de integracion>', () => {
     cy.get('input[name="email"]').type('example@example.com');
     cy.get('input[name="password"]').type('password');
     cy.get('button').click();
+    cy.intercept('POST', 'http://localhost:3001/api/v1/login', {
+      statusCode: 200,
+      body: {
+        user: {
+          cn: 'brunodiaz@batman.com',
+          sn: 'Bruno Diaz',
+          id: 1,
+          role: 'admin',
+          image:
+            'https://i.pinimg.com/474x/cb/07/78/cb0778d373be88116e143c9b8cadb682.jpg'
+        },
+        token: '1234567890'
+      }
+    }).as('login');
     cy.url().should('eq', 'http://localhost:3000/dashboard');
   });
 });

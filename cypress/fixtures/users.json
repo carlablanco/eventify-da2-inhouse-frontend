@@ -1,0 +1,14 @@
+[
+  {
+    "_id": "59b99db4cfa9a34dcd7885b6",
+    "name": "Ned Stark",
+    "email": "sean_bean@gameofthron.es",
+    "password": ""
+  },
+  {
+    "_id": "59b99db4cfa9a34dcd7885b7",
+    "name": "Robert Baratheon",
+    "email": "mark_addy@gameofthron.es",
+    "password": ""
+  }
+]
