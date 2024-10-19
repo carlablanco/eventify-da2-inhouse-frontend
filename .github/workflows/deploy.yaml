@@ -28,6 +28,7 @@ jobs:
           echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
           echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
           echo "aws_session_token = ${{ secrets.AWS_SESSION_TOKEN }}" >> ~/.aws/credentials
+          echo "aws_region = us-east-1" >> ~/.aws/credentials
 
       - name: Create Terraform Variables File
         working-directory: infra
@@ -35,6 +36,7 @@ jobs:
           echo "aws_access_key_id = \"${{ secrets.AWS_ACCESS_KEY_ID }}\"" > terraform.tfvars
           echo "aws_secret_access_key = \"${{ secrets.AWS_SECRET_ACCESS_KEY }}\"" >> terraform.tfvars
           echo "aws_session_token = \"${{ secrets.AWS_SESSION_TOKEN }}\"" >> terraform.tfvars
+          echo "aws_region = \"us-east-1\"" >> infra/terraform.tfvars
       
       - name: Terraform Init
         working-directory: infra
