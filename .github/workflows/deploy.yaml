@@ -20,10 +20,14 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.0
-
-      - name: Terraform Init
-        working-directory: infra
-        run: terraform init
+    
+      - name: Set up AWS Credentials
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" >> ~/.aws/credentials
+          echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+          echo "aws_session_token = ${{ secrets.AWS_SESSION_TOKEN }}" >> ~/.aws/credentials
 
       - name: Create Terraform Variables File
         working-directory: infra
@@ -31,6 +35,10 @@ jobs:
           echo "aws_access_key_id = \"${{ secrets.AWS_ACCESS_KEY_ID }}\"" > terraform.tfvars
           echo "aws_secret_access_key = \"${{ secrets.AWS_SECRET_ACCESS_KEY }}\"" >> terraform.tfvars
           echo "aws_session_token = \"${{ secrets.AWS_SESSION_TOKEN }}\"" >> terraform.tfvars
+      
+      - name: Terraform Init
+        working-directory: infra
+        run: terraform init
   
       - name: Terraform Apply (Create ECR Repository)
         working-directory: infra
