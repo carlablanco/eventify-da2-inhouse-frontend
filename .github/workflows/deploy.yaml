@@ -16,28 +16,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up AWS Credentials
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+          echo "aws_session_token = ${{ secrets.AWS_SESSION_TOKEN }}" >> ~/.aws/credentials
+
+          echo "[default]" > ~/.aws/config
+          echo "region = us-east-1" >> ~/.aws/config
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.0
-    
-      - name: Set up AWS Credentials
-        run: |
-          mkdir -p ~/.aws
-          echo "[default]" >> ~/.aws/credentials
-          echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
-          echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
-          echo "aws_session_token = ${{ secrets.AWS_SESSION_TOKEN }}" >> ~/.aws/credentials
-          echo "aws_region = us-east-1" >> ~/.aws/credentials
 
-          echo "[default]" > ~/.aws/config
-          echo "region = us-east-1" >> ~/.aws/config
-      
       - name: Terraform Init
         working-directory: infra
         run: terraform init
-  
-      - name: Terraform Apply (Create ECR Repository)
+
+      - name: Terraform Apply (Create or Update Resources)
         working-directory: infra
         run: terraform apply -auto-approve
 
@@ -55,4 +54,3 @@ jobs:
       - name: Push Docker image to ECR
         run: |
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/frontend-repo:latest
-
