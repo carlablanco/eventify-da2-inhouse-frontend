@@ -69,7 +69,7 @@ export const UserProvider = ({ children }: any) => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (token) {
