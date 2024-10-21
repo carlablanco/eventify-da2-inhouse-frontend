@@ -31,3 +31,8 @@ export async function loginUser(
 
   return data;
 }
+
+//TBC
+export async function getUser(id: string) {
+  return await fetch(`http://localhost:3001/api/v1/users/${id}`);
+}

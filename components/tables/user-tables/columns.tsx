@@ -1,7 +1,6 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { CellAction } from './cell-action';
 import { User } from '@/constants/data';
 import { Checkbox } from '@/components/ui/checkbox';
 
@@ -12,37 +11,42 @@ export const columns: ColumnDef<User>[] = [
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
+        aria-label="Seleccionar todos"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
+        aria-label="Seleccionar fila"
       />
     ),
     enableSorting: false,
     enableHiding: false
   },
   {
+    accessorKey: 'id',
+    header: 'ID'
+  },
+  {
     accessorKey: 'name',
     header: 'NOMBRE'
   },
   {
-    accessorKey: 'company',
-    header: 'EMPRESA'
+    accessorKey: 'module',
+    header: 'MODULO'
   },
   {
     accessorKey: 'role',
     header: 'ROL'
   },
   {
-    accessorKey: 'status',
-    header: 'ESTADO'
+    accessorKey: 'verified',
+    header: 'VERIFICADO',
+    cell: (item) => (item.getValue() ? 'Si' : 'No')
   },
   {
-    id: 'actions',
-    cell: ({ row }) => <CellAction data={row.original} />
+    accessorKey: 'status',
+    header: 'ESTADO'
   }
 ];

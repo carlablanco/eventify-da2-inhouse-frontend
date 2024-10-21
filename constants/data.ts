@@ -3,7 +3,7 @@ import { NavItem } from '@/types';
 export type User = {
   id: number;
   name: string;
-  company: string;
+  module: string;
   role: string;
   verified: boolean;
   status: string;
@@ -13,7 +13,7 @@ export const users: User[] = [
   {
     id: 1,
     name: 'Candice Schiner',
-    company: 'Dell',
+    module: 'Marketing',
     role: 'Frontend Developer',
     verified: false,
     status: 'Active'
@@ -21,7 +21,7 @@ export const users: User[] = [
   {
     id: 2,
     name: 'John Doe',
-    company: 'TechCorp',
+    module: 'HR',
     role: 'Backend Developer',
     verified: true,
     status: 'Active'
@@ -29,7 +29,7 @@ export const users: User[] = [
   {
     id: 3,
     name: 'Alice Johnson',
-    company: 'WebTech',
+    module: 'HR',
     role: 'UI Designer',
     verified: true,
     status: 'Active'
@@ -37,7 +37,7 @@ export const users: User[] = [
   {
     id: 4,
     name: 'David Smith',
-    company: 'Innovate Inc.',
+    module: 'Marketing',
     role: 'Fullstack Developer',
     verified: false,
     status: 'Inactive'
@@ -45,7 +45,7 @@ export const users: User[] = [
   {
     id: 5,
     name: 'Emma Wilson',
-    company: 'TechGuru',
+    module: 'Mobile',
     role: 'Product Manager',
     verified: true,
     status: 'Active'
@@ -53,7 +53,7 @@ export const users: User[] = [
   {
     id: 6,
     name: 'James Brown',
-    company: 'CodeGenius',
+    module: 'Mobile',
     role: 'QA Engineer',
     verified: false,
     status: 'Active'
@@ -61,7 +61,7 @@ export const users: User[] = [
   {
     id: 7,
     name: 'Laura White',
-    company: 'SoftWorks',
+    module: 'Marketing',
     role: 'UX Designer',
     verified: true,
     status: 'Active'
@@ -69,7 +69,7 @@ export const users: User[] = [
   {
     id: 8,
     name: 'Michael Lee',
-    company: 'DevCraft',
+    module: 'Marketing',
     role: 'DevOps Engineer',
     verified: false,
     status: 'Active'
@@ -77,7 +77,7 @@ export const users: User[] = [
   {
     id: 9,
     name: 'Olivia Green',
-    company: 'WebSolutions',
+    module: 'Marketing',
     role: 'Frontend Developer',
     verified: true,
     status: 'Active'
@@ -85,7 +85,7 @@ export const users: User[] = [
   {
     id: 10,
     name: 'Robert Taylor',
-    company: 'DataTech',
+    module: 'Marketing',
     role: 'Data Analyst',
     verified: false,
     status: 'Active'
@@ -125,14 +125,8 @@ export const navItems: NavItem[] = [
     label: 'user'
   },
   {
-    title: 'Empleados',
-    href: '/dashboard/employee',
-    icon: 'employee',
-    label: 'employee'
-  },
-  {
     title: 'Perfil',
-    href: '/dashboard/profile',
+    href: '/profile',
     icon: 'profile',
     label: 'profile'
   },

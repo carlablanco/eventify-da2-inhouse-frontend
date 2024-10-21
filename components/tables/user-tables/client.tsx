@@ -21,8 +21,8 @@ export const UserClient: FC<ProductsClientProps> = ({ data }) => {
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Users (${data.length})`}
-          description="Manage users (Client side table functionalities.)"
+          title={`Usuarios (${data.length})`}
+          description="Listado de usuarios registrados en la plataforma."
         />
         <Button
           className="text-xs md:text-sm"

@@ -9,8 +9,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Next Shadcn',
-  description: 'Basic dashboard with Next.js and Shadcn'
+  title: 'Eventify',
+  description: 'Plataforma interna de la aplicación Eventify'
 };
 
 export default async function RootLayout({
@@ -19,11 +19,8 @@ export default async function RootLayout({
   children: ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.className} overflow-hidden`}
-        suppressHydrationWarning={true}
-      >
+    <html lang="en" suppressHydrationWarning={true}>
+      <body className={`${inter.className} overflow-hidden`}>
         <NextTopLoader showSpinner={false} />
         <Providers>
           <Toaster />
