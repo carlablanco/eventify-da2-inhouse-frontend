@@ -64,7 +64,7 @@ export const UserForm: React.FC = () => {
   const [initialData, setInitialData] = useState<UserFormValues | null>(null);
   const params = useParams();
   const { toast } = useToast();
-  const isEdit = !!params.userId;
+  const isEdit = !!params.uid;
   const [loading, setLoading] = useState(false);
   const title = initialData ? 'Editar usuario' : 'Agregar usuario';
   const description = initialData
@@ -79,11 +79,11 @@ export const UserForm: React.FC = () => {
 
   useEffect(() => {
     if (isEdit) {
-      getUser(params.userId as string).then((res) => {
+      getUser(params.uid as string).then((res) => {
         setInitialData(res as any);
       });
     }
-  }, [isEdit, params.userId, setValue]);
+  }, [isEdit, params.uid, setValue]);
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(formSchema),
