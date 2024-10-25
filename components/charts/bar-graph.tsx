@@ -95,20 +95,20 @@ const chartData = [
   { date: '2024-06-14', desktop: 426 },
   { date: '2024-06-15', desktop: 307 },
   { date: '2024-06-16', desktop: 371 },
-  { date: '2024-06-17', desktop: 475 },
-  { date: '2024-06-18', desktop: 107 },
-  { date: '2024-06-19', desktop: 341 },
-  { date: '2024-06-20', desktop: 408 },
-  { date: '2024-06-21', desktop: 169 },
-  { date: '2024-06-22', desktop: 317 },
-  { date: '2024-06-23', desktop: 480 },
-  { date: '2024-06-24', desktop: 132 },
-  { date: '2024-06-25', desktop: 141 },
-  { date: '2024-06-26', desktop: 434 },
-  { date: '2024-06-27', desktop: 448 },
-  { date: '2024-06-28', desktop: 149 },
-  { date: '2024-06-29', desktop: 103 },
-  { date: '2024-06-30', desktop: 446 }
+  { date: '2024-07-17', desktop: 475 },
+  { date: '2024-07-18', desktop: 107 },
+  { date: '2024-07-19', desktop: 341 },
+  { date: '2024-07-20', desktop: 408 },
+  { date: '2024-07-21', desktop: 169 },
+  { date: '2024-08-22', desktop: 317 },
+  { date: '2024-08-23', desktop: 480 },
+  { date: '2024-08-24', desktop: 132 },
+  { date: '2024-09-25', desktop: 141 },
+  { date: '2024-09-26', desktop: 434 },
+  { date: '2024-09-27', desktop: 448 },
+  { date: '2024-09-28', desktop: 149 },
+  { date: '2024-09-29', desktop: 103 },
+  { date: '2024-09-30', desktop: 446 }
 ];
 
 const chartConfig = {
@@ -142,7 +142,7 @@ export function BarGraph() {
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Conexiones por hora</CardTitle>
           <CardDescription>
-            Mostrando el total de visitantes de los últimos 3 meses
+            Mostrando el total de visitantes de los últimos meses
           </CardDescription>
         </div>
         <div className="flex">
