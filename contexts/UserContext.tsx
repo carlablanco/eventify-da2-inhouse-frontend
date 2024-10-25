@@ -8,6 +8,7 @@ interface UserContextType {
   setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
+  isAdmin: boolean;
 }
 
 const UserContext = createContext<UserContextType>({
@@ -16,7 +17,8 @@ const UserContext = createContext<UserContextType>({
   isLogged: false,
   setIsLogged: () => {},
   token: '',
-  setToken: () => ''
+  setToken: () => '',
+  isAdmin: false
 });
 
 export const useUserContext = () => useContext(UserContext);
@@ -26,6 +28,11 @@ export const UserProvider = ({ children }: any) => {
   const [isLogged, setIsLogged] = useState(false);
   const [token, setToken] = useState('');
   const router = useRouter();
+  const isAdmin =
+    user.modules?.eda?.includes('admin') ||
+    user.modules?.marketing?.includes('admin') ||
+    user.modules?.hr?.includes('admin') ||
+    user.modules?.artistas.includes('admin');
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('token');
@@ -83,7 +90,7 @@ export const UserProvider = ({ children }: any) => {
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, isLogged, setIsLogged, token, setToken }}
+      value={{ user, setUser, isLogged, setIsLogged, token, setToken, isAdmin }}
     >
       {children}
     </UserContext.Provider>

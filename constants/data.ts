@@ -36,12 +36,6 @@ export const navItems: NavItem[] = [
     href: '/profile',
     icon: 'profile',
     label: 'profile'
-  },
-  {
-    title: 'Cerrar Sesion',
-    href: '/',
-    icon: 'login',
-    label: 'login'
   }
 ];
 
@@ -158,7 +152,7 @@ export const actualUsersMocked = [
   {
     mail: 'Annabela.Germann@gmail.com',
     modules: {
-      artists: ['manager']
+      artistas: ['manager']
     },
     dn: 'cn=Annabela.Germann@gmail.com,ou=usuarios,ou=eventify_sa,dc=ec2,dc=internal',
     sn: 'Germann',
@@ -266,7 +260,7 @@ export const actualLogsData = [
     _id: '671ac5311e6d6cab4671e76e',
     username: 'tomas01ariel@gmail.com',
     modules: {
-      artists: ['admin']
+      artistas: ['admin']
     },
     action: 'login',
     isSuspicious: true,
@@ -276,7 +270,7 @@ export const actualLogsData = [
     _id: '671ac53e1e6d6cab4671e770',
     username: 'tomas01ariel@gmail.com',
     modules: {
-      artists: ['admin']
+      artistas: ['admin']
     },
     action: 'login',
     isSuspicious: true,
@@ -296,7 +290,7 @@ export const actualLogsData = [
     _id: '671b06c79daa67f2040ab877',
     username: 'tomas01ariel@gmail.com',
     modules: {
-      artists: ['admin']
+      artistas: ['admin']
     },
     action: 'login',
     isSuspicious: true,
@@ -306,7 +300,7 @@ export const actualLogsData = [
     _id: '671b17179daa67f2040ab879',
     username: 'tomas01ariel@gmail.com',
     modules: {
-      artists: ['admin']
+      artistas: ['admin']
     },
     action: 'login',
     isSuspicious: true,

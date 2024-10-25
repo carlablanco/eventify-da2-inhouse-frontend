@@ -28,7 +28,7 @@ export default function Sidebar({ className }: SidebarProps) {
       )}
     >
       <div className="hidden p-5 pt-10 lg:block">
-        <Link href={'/'}>
+        <Link href={'/dashboard'}>
           <Music2 />
         </Link>
       </div>

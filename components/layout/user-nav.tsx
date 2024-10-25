@@ -15,11 +15,13 @@ import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
 
 export function UserNav() {
-  const { user } = useUserContext();
+  const { user, setUser, setIsLogged } = useUserContext();
   const router = useRouter();
 
   const handleSignOut = () => {
     sessionStorage.clear();
+    setUser({});
+    setIsLogged(false);
     router.push('/');
   };
 

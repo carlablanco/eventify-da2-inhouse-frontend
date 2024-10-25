@@ -26,7 +26,7 @@ import {
 } from '@/components/ui/tooltip';
 
 const formSchema = z.object({
-  id: z.string(),
+  uid: z.string(),
   name: z.string({ message: 'Nombre requerido' }),
   email: z.string().email({ message: 'Ingresá un correo electrónico válido' }),
   role: z.string(),
@@ -37,10 +37,10 @@ const formSchema = z.object({
 
 type UserProfileFormValue = z.infer<typeof formSchema>;
 
-const defaultValues = {
+let values = {
   name: 'Juan Pérez',
   email: 'juan.perez@example.com',
-  id: '12345',
+  uid: '12345',
   role: 'Administrador',
   module: 'Recursos Humanos',
   status: 'Activo',
@@ -51,9 +51,24 @@ function UserProfile() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const { user } = useUserContext();
+  if (user) {
+    const module1 = user.modules ? Object.keys(user.modules)[0] : ' ';
+    const [role] =
+      user.modules && user.modules[module1] ? user.modules[module1] : ' ';
+
+    values = {
+      name: user.givenName + ' ' + user.sn,
+      email: user.cn,
+      uid: user.uid,
+      role: role,
+      module: module1,
+      status: 'Activo',
+      validated: true
+    };
+  }
   const form = useForm<UserProfileFormValue>({
     resolver: zodResolver(formSchema),
-    defaultValues
+    values
   });
 
   const onSubmit = async (formValues: UserProfileFormValue) => {
@@ -64,7 +79,6 @@ function UserProfile() {
     });
     setLoading(false);
   };
-
   return (
     <div className={'flex flex-col'}>
       <div className="my-6 flex items-center">
@@ -79,7 +93,7 @@ function UserProfile() {
         <div className={'flex flex-col'}>
           <div className={'flex gap-2'}>
             <h2 className="text-xl font-semibold">
-              {user?.name ?? 'Juan Pérez'}
+              {user?.givenName + ' ' + user?.sn ?? ''}
             </h2>
             <TooltipProvider>
               <Tooltip>
@@ -92,7 +106,7 @@ function UserProfile() {
               </Tooltip>
             </TooltipProvider>
           </div>
-          <p className="text-sm">{user?.role ?? 'CEO'}</p>
+          <p className="text-sm">{values.role.toUpperCase()}</p>
         </div>
       </div>
       <Form {...form}>

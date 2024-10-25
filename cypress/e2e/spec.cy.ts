@@ -24,38 +24,37 @@ describe('Tests de integracion>', () => {
   });
 
   it('Devuelve una lista de usuarios al llamar al endpoint de la API correspondiente', () => {
-    cy.intercept(
-      'GET',
-      'http://backclusterinhouseloadbalancer-1956526135.us-east-1.elb.amazonaws.com:3001/api/v1/users',
-      {
-        fixture: 'users.json'
-      }
-    ).as('users');
+    cy.request(
+      'http://backclusterinhouseloadbalancer-1956526135.us-east-1.elb.amazonaws.com:3001/api/v1/users?page=1'
+    ).then((res) => {
+      expect(res.body).to.have.property('pagedUsers');
+    });
   });
 
   it('Redirige a la pagina de dashboard al loguearse correctamente', () => {
     cy.visit('http://localhost:3000');
-    cy.get('input[name="email"]').type('example@example.com');
-    cy.get('input[name="password"]').type('password');
+    cy.get('input[name="email"]').type('nanete.carolin@gmail.com');
+    cy.get('input[name="password"]').type('1234');
     cy.get('button').click();
-    cy.intercept(
-      'POST',
-      'http://backclusterinhouseloadbalancer-1956526135.us-east-1.elb.amazonaws.com:3001/api/v1/login',
-      {
-        statusCode: 200,
-        body: {
-          user: {
-            cn: 'brunodiaz@batman.com',
-            sn: 'Bruno Diaz',
-            id: 1,
-            role: 'admin',
-            image:
-              'https://i.pinimg.com/474x/cb/07/78/cb0778d373be88116e143c9b8cadb682.jpg'
-          },
-          token: '1234567890'
-        }
-      }
-    ).as('login');
+    // cy.intercept(
+    //   'POST',
+    //   'http://backclusterinhouseloadbalancer-1956526135.us-east-1.elb.amazonaws.com:3001/api/v1/login',
+    //   {
+    //     statusCode: 200,
+    //     body: {
+    //       user: {
+    //         cn: 'brunodiaz@batman.com',
+    //         sn: 'Bruno Diaz',
+    //         id: 1,
+    //         role: 'admin',
+    //         image:
+    //           'https://i.pinimg.com/474x/cb/07/78/cb0778d373be88116e143c9b8cadb682.jpg'
+    //       },
+    //       token: '1234567890'
+    //     }
+    //   }
+    // ).as('login');
+    cy.wait(10000);
     cy.url().should('eq', 'http://localhost:3000/dashboard');
   });
 });
