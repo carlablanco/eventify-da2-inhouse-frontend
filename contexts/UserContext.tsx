@@ -38,13 +38,16 @@ export const UserProvider = ({ children }: any) => {
     if (!storedToken && currentPath !== '/') {
       router.push('/');
     } else if (storedToken) {
-      fetch(`http://localhost:3001/api/v1/login/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ jwt: storedToken })
-      })
+      fetch(
+        `http://backclusterinhouseloadbalancer-1956526135.us-east-1.elb.amazonaws.com:3001/api/v1/login/token`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ jwt: storedToken })
+        }
+      )
         .then((response) => {
           const isValid = response.status === 200;
           console.log('Token');

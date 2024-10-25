@@ -16,9 +16,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DataTable } from '@/components/ui/data-table';
 import { Separator } from '@/components/ui/separator';
 import { columns } from '@/components/tables/user-tables/columns';
+//import { getUsers } from '@/api/api';
 import { users } from '@/constants/data';
-
 export default function page() {
+  //let users=getUsers();
   return (
     <PageContainer scrollable={true}>
       <div className="space-y-2">

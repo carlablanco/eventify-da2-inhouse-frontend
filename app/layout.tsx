@@ -5,7 +5,6 @@ import type { Metadata } from 'next';
 import NextTopLoader from 'nextjs-toploader';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { AuthComponent } from '@/components/auth/auth-component';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,12 +22,10 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`${inter.className} overflow-hidden`}>
         <NextTopLoader showSpinner={false} />
-        <AuthComponent>
-          <Providers>
-            <Toaster />
-            {children}
-          </Providers>
-        </AuthComponent>
+        <Providers>
+          <Toaster />
+          {children}
+        </Providers>
       </body>
     </html>
   );
