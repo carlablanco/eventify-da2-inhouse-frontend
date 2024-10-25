@@ -26,7 +26,7 @@ import {
 } from '@/components/ui/tooltip';
 
 const formSchema = z.object({
-  id: z.string(),
+  uid: z.string(),
   name: z.string({ message: 'Nombre requerido' }),
   email: z.string().email({ message: 'Ingresá un correo electrónico válido' }),
   role: z.string(),
@@ -40,7 +40,7 @@ type UserProfileFormValue = z.infer<typeof formSchema>;
 const defaultValues = {
   name: 'Juan Pérez',
   email: 'juan.perez@example.com',
-  id: '12345',
+  uid: '12345',
   role: 'Administrador',
   module: 'Recursos Humanos',
   status: 'Activo',
