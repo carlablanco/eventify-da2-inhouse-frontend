@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { User } from '@/constants/data';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { columns } from './columns';
+import { userColumns } from './user-columns';
 import { FC } from 'react';
 
 interface ProductsClientProps {
@@ -16,7 +16,6 @@ interface ProductsClientProps {
 
 export const UserClient: FC<ProductsClientProps> = ({ data }) => {
   const router = useRouter();
-
   return (
     <>
       <div className="flex items-start justify-between">
@@ -32,7 +31,7 @@ export const UserClient: FC<ProductsClientProps> = ({ data }) => {
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey="name" columns={columns} data={data} />
+      <DataTable searchKey="givenName" columns={userColumns} data={data} />
     </>
   );
 };
