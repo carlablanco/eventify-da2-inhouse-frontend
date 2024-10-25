@@ -1,18 +1,15 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import { CreateProfileOne } from '@/components/forms/user-profile-stepper/create-profile';
 import PageContainer from '@/components/layout/page-container';
+import ProfilePage from '@/components/profile/profile-page';
 
-const breadcrumbItems = [
-  { title: 'Panel', link: '/dashboard' },
-  { title: 'Perfil', link: '/dashboard/profile' }
-];
+const breadcrumbItems = [{ title: 'Perfil', link: '/profile' }];
 
 export default function page() {
   return (
     <PageContainer scrollable={true}>
       <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
-        <CreateProfileOne categories={[]} initialData={null} />
+        <ProfilePage />
       </div>
     </PageContainer>
   );
