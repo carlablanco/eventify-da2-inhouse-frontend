@@ -5,6 +5,7 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: 'http://localhost:3001'
+    baseUrl:
+      'http://backclusterinhouseloadbalancer-1956526135.us-east-1.elb.amazonaws.com:3001'
   }
 });

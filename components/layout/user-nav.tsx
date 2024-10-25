@@ -44,10 +44,9 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Perfil</DropdownMenuItem>
-          <DropdownMenuItem>Suscripción</DropdownMenuItem>
-          <DropdownMenuItem>Configuración</DropdownMenuItem>
-          <DropdownMenuItem>Nuevo equipo</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push('/profile/me')}>
+            Perfil
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleSignOut()}>

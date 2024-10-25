@@ -42,7 +42,6 @@ export const CellAction: FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-
           <DropdownMenuItem
             onClick={() => router.push(`/dashboard/user/${data.id}`)}
           >

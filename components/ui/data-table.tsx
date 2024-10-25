@@ -38,13 +38,10 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel()
   });
 
-  /* this can be used to get the selectedrows 
-  console.log("value", table.getFilteredSelectedRowModel()); */
-
   return (
     <>
       <Input
-        placeholder={`Search ${searchKey}...`}
+        placeholder={`Buscar por nombre...`}
         value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
         onChange={(event) =>
           table.getColumn(searchKey)?.setFilterValue(event.target.value)
@@ -94,7 +91,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No se encontraron resultados.
                 </TableCell>
               </TableRow>
             )}
@@ -104,8 +101,8 @@ export function DataTable<TData, TValue>({
       </ScrollArea>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredSelectedRowModel().rows.length} de{' '}
+          {table.getFilteredRowModel().rows.length} fila(s) seleccionadas.
         </div>
         <div className="space-x-2">
           <Button
@@ -114,7 +111,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            Anterior
           </Button>
           <Button
             variant="outline"
@@ -122,7 +119,7 @@ export function DataTable<TData, TValue>({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            Siguiente
           </Button>
         </div>
       </div>

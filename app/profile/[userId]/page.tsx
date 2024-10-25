@@ -1,19 +1,15 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
-import { UserClient } from '@/components/tables/user-tables/client';
-import { actualUsersMocked, User } from '@/constants/data';
+import ProfilePage from '@/components/profile/profile-page';
 
-const breadcrumbItems = [
-  { title: 'Panel', link: '/dashboard' },
-  { title: 'Usuarios', link: '/dashboard/user' }
-];
+const breadcrumbItems = [{ title: 'Perfil', link: '/profile' }];
 
 export default function page() {
   return (
     <PageContainer>
       <div className="space-y-2">
         <Breadcrumbs items={breadcrumbItems} />
-        <UserClient data={actualUsersMocked as User[]} />
+        <ProfilePage />
       </div>
     </PageContainer>
   );

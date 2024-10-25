@@ -24,6 +24,11 @@ const formSchema = z.object({
   password: z.string()
 });
 
+const defaultValues = {
+  email: '',
+  password: ''
+};
+
 type UserFormValue = z.infer<typeof formSchema>;
 
 function UserAuthForm() {
@@ -34,7 +39,8 @@ function UserAuthForm() {
   const { toast } = useToast();
 
   const form = useForm<UserFormValue>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    defaultValues
   });
 
   const onSubmit = async (formValues: UserFormValue) => {
@@ -93,7 +99,12 @@ function UserAuthForm() {
             <FormItem>
               <FormLabel>Contraseña</FormLabel>
               <FormControl>
-                <Input type="password" disabled={loading} {...field} />
+                <Input
+                  type="password"
+                  placeholder="Ingresa tu contraseña"
+                  disabled={loading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

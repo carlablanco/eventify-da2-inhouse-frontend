@@ -1,5 +1,5 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import { ProductForm } from '@/components/forms/product-form';
+import { UserForm } from '@/components/forms/user-form';
 import PageContainer from '@/components/layout/page-container';
 import React from 'react';
 
@@ -14,14 +14,7 @@ export default function Page() {
     <PageContainer scrollable={true}>
       <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
-        <ProductForm
-          categories={[
-            { _id: 'shirts', name: 'shirts' },
-            { _id: 'pants', name: 'pants' }
-          ]}
-          initialData={null}
-          key={null}
-        />
+        <UserForm key={null} />
       </div>
     </PageContainer>
   );
