@@ -13,10 +13,10 @@ import {
   CardTitle
 } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DataTable } from '@/components/ui/data-table';
 import { Separator } from '@/components/ui/separator';
-import { columns } from '@/components/tables/user-tables/columns';
-import { users } from '@/constants/data';
+import { actualLogsData } from '@/constants/data';
+import CustomizedUserTable from '@/components/tables/customized-user-table';
+import { logsColumns } from '@/components/tables/logs-tables/log-columns';
 
 export default function page() {
   return (
@@ -271,7 +271,10 @@ export default function page() {
             </div>
             <Separator />
             <div className="space-y-2">
-              <DataTable searchKey="name" columns={columns} data={users} />
+              <CustomizedUserTable
+                columns={logsColumns}
+                data={actualLogsData}
+              />
             </div>
           </TabsContent>
         </Tabs>

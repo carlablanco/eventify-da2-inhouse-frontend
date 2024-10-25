@@ -1,18 +1,19 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
 import { UserClient } from '@/components/tables/user-tables/client';
-import { users } from '@/constants/data';
+import { actualUsersMocked, User } from '@/constants/data';
 
 const breadcrumbItems = [
   { title: 'Panel', link: '/dashboard' },
   { title: 'Usuarios', link: '/dashboard/user' }
 ];
+
 export default function page() {
   return (
     <PageContainer>
       <div className="space-y-2">
         <Breadcrumbs items={breadcrumbItems} />
-        <UserClient data={users} />
+        <UserClient data={actualUsersMocked as User[]} />
       </div>
     </PageContainer>
   );
