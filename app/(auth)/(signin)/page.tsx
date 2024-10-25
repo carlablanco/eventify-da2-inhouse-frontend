@@ -2,7 +2,7 @@ import { Music2 } from 'lucide-react';
 import AuthClient from './AuthClient';
 
 export const metadata = {
-  title: 'Authentication',
+  title: 'Login - Eventify',
   description: 'Authentication forms built using the components.'
 };
 

@@ -36,6 +36,12 @@ export const navItems: NavItem[] = [
     href: '/profile',
     icon: 'profile',
     label: 'profile'
+  },
+  {
+    title: 'Beneficios',
+    href: '/benefits',
+    icon: 'billing',
+    label: 'billing'
   }
 ];
 
