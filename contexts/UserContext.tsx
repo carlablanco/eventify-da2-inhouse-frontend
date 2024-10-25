@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 interface UserContextType {
@@ -25,6 +25,7 @@ export const UserProvider = ({ children }: any) => {
   const [user, setUser] = useState<Record<string, any>>({});
   const [isLogged, setIsLogged] = useState(false);
   const [token, setToken] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem('token');
@@ -35,15 +36,18 @@ export const UserProvider = ({ children }: any) => {
     setToken(storedToken ?? '');
 
     if (!storedToken && currentPath !== '/') {
-      redirect('/');
+      router.push('/');
     } else if (storedToken) {
-      fetch(`http://localhost:3001/api/v1/login/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ jwt: storedToken })
-      })
+      fetch(
+        `http://backclusterinhouseloadbalancer-1956526135.us-east-1.elb.amazonaws.com:3001/api/v1/login/token`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ jwt: storedToken })
+        }
+      )
         .then((response) => {
           const isValid = response.status === 200;
           console.log('Token');
@@ -53,7 +57,7 @@ export const UserProvider = ({ children }: any) => {
           } else {
             console.log('Token inválido o expirado');
             if (currentPath !== '/') {
-              redirect('/');
+              router.push('/');
             }
           }
         })
@@ -61,14 +65,14 @@ export const UserProvider = ({ children }: any) => {
           console.log('Error al validar el token:', error);
           setIsLogged(false);
           if (currentPath !== '/') {
-            redirect('/');
+            router.push('/');
           }
         });
     }
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (token) {

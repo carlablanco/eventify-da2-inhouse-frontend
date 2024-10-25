@@ -1,10 +1,10 @@
 'use client';
 
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode } from 'react';
 import Header from '@/components/layout/header';
 import Sidebar from '@/components/layout/sidebar';
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default function ProfileLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex">
       <Sidebar />
