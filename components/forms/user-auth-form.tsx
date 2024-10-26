@@ -34,7 +34,7 @@ type UserFormValue = z.infer<typeof formSchema>;
 function UserAuthForm() {
   const [loading, setLoading] = useState(false);
   const [check, setCheck] = useState(false);
-  const { setUser, setToken, isLogged } = useUserContext();
+  const { setUser, setToken, isLogged, user } = useUserContext();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -42,7 +42,7 @@ function UserAuthForm() {
     if (isLogged) {
       router.push('/dashboard');
     }
-  }, []);
+  }, [isLogged]);
 
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),

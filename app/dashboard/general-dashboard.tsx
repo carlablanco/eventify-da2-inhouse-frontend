@@ -1,15 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import Image from 'next/image';
 import PageContainer from '@/components/layout/page-container';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from '@/components/ui/carousel';
 import { BarGraph } from '@/components/charts/bar-graph';
 
 import { Separator } from '@/components/ui/separator';
@@ -17,6 +17,8 @@ import CustomizedUserTable from '@/components/tables/customized-user-table';
 import { logsColumns } from '@/components/tables/logs-tables/log-columns';
 import { actualLogsData } from '@/constants/data';
 import { useUserContext } from '@/contexts/UserContext';
+import Link from 'next/link';
+import CalendarEvents from '@/components/events/calendar-events';
 
 const articles = [
   {
@@ -64,6 +66,15 @@ const employee = {
 
 export function GeneralDashboard() {
   const { isAdmin } = useUserContext();
+  const [hoverStates, setHoverStates] = useState({});
+
+  const handleMouseEnter = (id: number) => {
+    setHoverStates((prev) => ({ ...prev, [id]: true }));
+  };
+
+  const handleMouseLeave = (id: number) => {
+    setHoverStates((prev) => ({ ...prev, [id]: false }));
+  };
 
   return (
     <PageContainer scrollable={true}>
@@ -82,60 +93,50 @@ export function GeneralDashboard() {
             <TabsTrigger value="overview">General</TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
-            <div>
-              <h1 className={'py-4'}>Últimas noticias</h1>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Carousel>
+              <CarouselContent>
                 {articles.map((article) => {
                   return (
-                    <Card key={article.title}>
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">
-                          {article.title}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <img
-                          src={article.imageUrl}
-                          className={'h-[180px] w-[180px] py-4'}
-                        />
-                        <CardDescription>{article.description}</CardDescription>
-                      </CardContent>
-                    </Card>
+                    <CarouselItem
+                      key={article.id}
+                      className="md:basis-1/2 lg:basis-1/3"
+                      onMouseEnter={() => handleMouseEnter(article.id)}
+                      onMouseLeave={() => handleMouseLeave(article.id)}
+                    >
+                      <Link href={'#'} passHref>
+                        <Card className="mx-auto w-full max-w-sm transform overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg">
+                          <CardContent className="relative p-0">
+                            <Image
+                              src={article.imageUrl}
+                              alt={article.title}
+                              width={400}
+                              height={120}
+                              className="h-[120px] w-[400px] object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70" />
+                            <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
+                              <h2 className="mb-1 line-clamp-1 text-lg font-bold">
+                                {article.title}
+                              </h2>
+                              <p
+                                className={`text-sm transition-all duration-300 ease-in-out ${
+                                  hoverStates[article.id]
+                                    ? 'max-h-14 opacity-100'
+                                    : 'max-h-0 opacity-0'
+                                } line-clamp-2 overflow-hidden`}
+                              >
+                                {article.description}
+                              </p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    </CarouselItem>
                   );
                 })}
-              </div>
-            </div>
-            <div>
-              <h1 className={'py-4'}>Empleado del mes</h1>
-              <div className="grid grid-cols-1">
-                <Card className="grid grid-cols-1">
-                  <div
-                    className={
-                      'flex flex-row content-center items-center justify-center'
-                    }
-                  >
-                    <CardHeader className="flex content-center items-center justify-center">
-                      <img
-                        src={employee.imageUrl}
-                        alt={`Foto de ${employee.name}`}
-                        className="h-[100px] rounded-3xl object-cover"
-                      />
-                    </CardHeader>
-                    <CardContent className="flex flex-col justify-center pt-6">
-                      <CardTitle className="text-2xl font-semibold">
-                        {employee.name}
-                      </CardTitle>
-                      <CardDescription className="text-lg text-gray-500">
-                        {employee.role}
-                      </CardDescription>
-                      <CardDescription>
-                        <p className="mt-2">{employee.description}</p>
-                      </CardDescription>
-                    </CardContent>
-                  </div>
-                </Card>
-              </div>
-            </div>
+              </CarouselContent>
+            </Carousel>
+            <CalendarEvents events={[]} />
           </TabsContent>
           <TabsContent value="analytics" className="space-y-4">
             <div className="col-span-4">

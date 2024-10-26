@@ -27,7 +27,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: 'Usuarios',
-    href: '/dashboard/user',
+    href: '/users',
     icon: 'user',
     label: 'user'
   },

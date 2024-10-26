@@ -4,9 +4,8 @@ import PageContainer from '@/components/layout/page-container';
 import React from 'react';
 
 const breadcrumbItems = [
-  { title: 'Panel', link: '/dashboard' },
-  { title: 'Usuarios', link: '/dashboard/user' },
-  { title: 'Create', link: '/dashboard/user/create' }
+  { title: 'Usuarios', link: '/users' },
+  { title: 'Agregar', link: '/users/create' }
 ];
 
 export default function Page() {

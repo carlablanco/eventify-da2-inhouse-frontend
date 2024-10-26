@@ -3,10 +3,7 @@ import PageContainer from '@/components/layout/page-container';
 import { UserClient } from '@/components/tables/user-tables/client';
 import { actualUsersMocked, User } from '@/constants/data';
 
-const breadcrumbItems = [
-  { title: 'Panel', link: '/dashboard' },
-  { title: 'Usuarios', link: '/dashboard/user' }
-];
+const breadcrumbItems = [{ title: 'Usuarios', link: '/users' }];
 
 export default function page() {
   return (
