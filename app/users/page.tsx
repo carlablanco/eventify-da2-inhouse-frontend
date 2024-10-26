@@ -8,7 +8,7 @@ const breadcrumbItems = [{ title: 'Usuarios', link: '/users' }];
 export default function page() {
   return (
     <PageContainer>
-      <div className="space-y-2">
+      <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
         <UserClient data={actualUsersMocked as User[]} />
       </div>

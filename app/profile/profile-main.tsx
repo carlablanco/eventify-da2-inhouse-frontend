@@ -24,6 +24,7 @@ import {
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip';
+import Image from 'next/image';
 
 const formSchema = z.object({
   uid: z.string(),
@@ -79,15 +80,18 @@ function UserProfile() {
     });
     setLoading(false);
   };
+
   return (
     <div className={'flex flex-col'}>
-      <div className="my-6 flex items-center">
-        <img
+      <div className="flex items-center">
+        <Image
           src={
-            user?.avatar ??
+            (user?.avatar as string) ??
             'https://static1.personality-database.com/profile_images/8f161dbce46041b98dd70044bb46ea51.png'
           }
           alt="Avatar"
+          width={10}
+          height={10}
           className="mr-4 h-20 w-20 rounded-full"
         />
         <div className={'flex flex-col'}>

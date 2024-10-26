@@ -1,6 +1,6 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
-import ProfilePage from '@/components/profile/profile-page';
+import ProfilePage from '@/app/profile/profile-main';
 
 const breadcrumbItems = [{ title: 'Perfil', link: '/profile' }];
 
