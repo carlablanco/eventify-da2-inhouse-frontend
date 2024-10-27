@@ -90,6 +90,7 @@ function UserAuthForm() {
                 <Input
                   type="email"
                   placeholder="Ingresa tu email"
+                  autoComplete={'email'}
                   disabled={loading}
                   {...field}
                 />
@@ -107,6 +108,7 @@ function UserAuthForm() {
               <FormControl>
                 <Input
                   type="password"
+                  autoComplete={'current-password'}
                   placeholder="Ingresa tu contraseña"
                   disabled={loading}
                   {...field}

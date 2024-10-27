@@ -139,6 +139,7 @@ export default function BenefitsMain() {
             <CardFooter className="mt-auto p-4 pt-0">
               <Button
                 className="w-full"
+                variant={'outline'}
                 onClick={() => alert(`Reclamado ${coupon.name}!`)}
               >
                 Obtener
