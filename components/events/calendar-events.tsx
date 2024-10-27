@@ -138,7 +138,7 @@ export default function CalendarEvents({
                       alt={`${event.artist} flyer`}
                       width={100}
                       height={100}
-                      className="rounded-md object-cover"
+                      className="aspect-video rounded-md object-cover"
                     />
                     <div>
                       <h3 className="text-lg font-semibold">{event.artist}</h3>
