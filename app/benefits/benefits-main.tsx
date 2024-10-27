@@ -139,7 +139,7 @@ export default function BenefitsMain() {
             <CardFooter className="mt-auto p-4 pt-0">
               <Button
                 className="w-full"
-                variant={'outline'}
+                variant={'secondary'}
                 type={'button'}
                 onClick={() => alert(`Reclamado ${coupon.name}!`)}
               >

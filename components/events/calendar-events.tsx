@@ -27,7 +27,7 @@ const mockedEvents: MusicEvent[] = [
   {
     id: '1',
     artist: 'Rock Band',
-    date: new Date(2024, 10, 15),
+    date: new Date(2024, 11, 15),
     time: '20:00',
     venue: 'City Arena',
     ticketUrl: '#',
@@ -37,7 +37,7 @@ const mockedEvents: MusicEvent[] = [
   {
     id: '2',
     artist: 'Pop Star',
-    date: new Date(2024, 10, 15),
+    date: new Date(2024, 11, 15),
     time: '19:30',
     venue: 'Music Hall',
     ticketUrl: '#',
@@ -47,7 +47,7 @@ const mockedEvents: MusicEvent[] = [
   {
     id: '3',
     artist: 'Jazz Ensemble',
-    date: new Date(2024, 10, 20),
+    date: new Date(2024, 11, 20),
     time: '21:00',
     venue: 'Jazz Club',
     ticketUrl: '#',
@@ -57,7 +57,7 @@ const mockedEvents: MusicEvent[] = [
   {
     id: '4',
     artist: 'Electronic DJ',
-    date: new Date(2024, 10, 25),
+    date: new Date(2024, 11, 25),
     time: '22:00',
     venue: 'Nightclub',
     ticketUrl: '#',
@@ -67,7 +67,7 @@ const mockedEvents: MusicEvent[] = [
   {
     id: '5',
     artist: 'Classical Orchestra',
-    date: new Date(2024, 10, 30),
+    date: new Date(2024, 11, 30),
     time: '19:00',
     venue: 'Concert Hall',
     ticketUrl: '#',
@@ -100,71 +100,79 @@ export default function CalendarEvents({
   }, [events]);
 
   return (
-    <div className="flex w-full flex-col flex-wrap gap-6 md:flex-row">
-      <Calendar
-        mode="single"
-        selected={selectedDate}
-        onSelect={setSelectedDate}
-        className="rounded-md border shadow"
-        modifiers={{
-          event: (date) => eventDates[date.toDateString()]
-        }}
-        modifiersStyles={{
-          event: {
-            fontWeight: 'bold'
-          }
-        }}
-      />
-      <div className={'flex w-3/4 flex-col gap-4'}>
-        <ScrollArea className="h-[calc(100vh-200px)] w-full rounded-md border p-4">
+    <ScrollArea className="h-[calc(100vh-200px)]">
+      <div className={'flex flex-wrap gap-6'}>
+        <Calendar
+          mode="single"
+          selected={selectedDate}
+          onSelect={setSelectedDate}
+          className="flex-none rounded-md"
+          modifiers={{
+            event: (date) => eventDates[date.toDateString()]
+          }}
+          modifiersStyles={{
+            event: {
+              fontWeight: 'bold',
+              border: '1px solid'
+            }
+          }}
+        />
+        <div className={'flex-grow pt-3'}>
           <h2 className="mb-8 text-2xl font-bold">
             Eventos el{' '}
             {selectedDate
               ? format(selectedDate, 'dd/MM/yyyy')
               : 'Fecha seleccionada'}
           </h2>
-          {filteredEvents.length > 0 ? (
-            filteredEvents.map((event) => (
-              <div
-                key={event.id}
-                className="mb-6 flex flex-wrap justify-between gap-4 border-b pb-6 last:border-b-0"
-              >
-                <div className={'flex gap-4'}>
-                  <Image
-                    src={event.flyerUrl}
-                    alt={`${event.artist} flyer`}
-                    width={100}
-                    height={100}
-                    className="rounded-md object-cover"
-                  />
-                  <div>
-                    <h3 className="text-lg font-semibold">{event.artist}</h3>
-                    <p className="text-sm text-gray-500">
-                      {format(event.date, 'MMMM d, yyyy')} at {event.time}
-                    </p>
-                    <p className="text-sm">{event.venue}</p>
+          <div>
+            {filteredEvents.length > 0 ? (
+              filteredEvents.map((event) => (
+                <div
+                  key={event.id}
+                  className="mb-6 flex flex-wrap justify-between gap-4 border-b pb-6 last:border-b-0"
+                >
+                  <div className={'flex gap-4'}>
+                    <Image
+                      src={event.flyerUrl}
+                      alt={`${event.artist} flyer`}
+                      width={100}
+                      height={100}
+                      className="rounded-md object-cover"
+                    />
+                    <div>
+                      <h3 className="text-lg font-semibold">{event.artist}</h3>
+                      <p className="text-sm text-gray-500">
+                        {format(event.date, 'MMMM d, yyyy')} at {event.time}
+                      </p>
+                      <p className="text-sm">{event.venue}</p>
+                    </div>
+                  </div>
+                  <div className="flex w-min items-center sm:w-full">
+                    <Button
+                      asChild
+                      className={'w-min sm:w-full'}
+                      type={'button'}
+                      variant={'secondary'}
+                    >
+                      <Link
+                        href={event.ticketUrl as string}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Ver más
+                      </Link>
+                    </Button>
                   </div>
                 </div>
-                <div className="flex w-min items-center sm:w-full">
-                  <Button asChild className={'w-min sm:w-full'}>
-                    <Link
-                      href={event.ticketUrl as string}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Ver más
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="text-center text-primary">
-              No hay eventos para esta fecha.
-            </p>
-          )}
-        </ScrollArea>
+              ))
+            ) : (
+              <p className="text-center text-primary">
+                No hay eventos para esta fecha.
+              </p>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </ScrollArea>
   );
 }
