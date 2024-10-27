@@ -7,6 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { es } from 'date-fns/locale';
 
 interface MusicEvent {
   id: string;
@@ -22,7 +23,6 @@ interface MusicEventCalendarProps {
   events: MusicEvent[];
 }
 
-// Mocked data
 const mockedEvents: MusicEvent[] = [
   {
     id: '1',
@@ -107,6 +107,7 @@ export default function CalendarEvents({
           selected={selectedDate}
           onSelect={setSelectedDate}
           className="flex-none rounded-md"
+          locale={es}
           modifiers={{
             event: (date) => eventDates[date.toDateString()]
           }}
@@ -141,10 +142,13 @@ export default function CalendarEvents({
                     />
                     <div>
                       <h3 className="text-lg font-semibold">{event.artist}</h3>
-                      <p className="text-sm text-gray-500">
-                        {format(event.date, 'MMMM d, yyyy')} at {event.time}
+                      <p className="text-sm">
+                        {format(event.date, 'MMMM d, yyyy', {
+                          locale: es
+                        })}{' '}
+                        a las {event.time}
                       </p>
-                      <p className="text-sm">{event.venue}</p>
+                      <p className="text-sm font-bold">{event.venue}</p>
                     </div>
                   </div>
                   <div className="flex w-min items-center sm:w-full">

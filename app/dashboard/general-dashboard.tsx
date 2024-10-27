@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import PageContainer from '@/components/layout/page-container';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -20,7 +19,14 @@ import { useUserContext } from '@/contexts/UserContext';
 import Link from 'next/link';
 import CalendarEvents from '@/components/events/calendar-events';
 
-const articles = [
+interface Article {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+}
+
+const articles: Record<string, any> = [
   {
     id: 1,
     title: 'Nuevo Proyecto en Desarrollo',
@@ -55,18 +61,14 @@ const articles = [
   }
 ];
 
-const employee = {
-  name: 'Mariana Gómez',
-  role: 'Desarrolladora de Software',
-  description:
-    'Mariana ha liderado exitosamente el último proyecto de implementación de IA, mejorando el rendimiento del equipo y superando las expectativas de los clientes.',
-  imageUrl:
-    'https://as1.ftcdn.net/v2/jpg/04/98/20/28/1000_F_498202810_sw4JBKYRNIgmYT0asdluVeNGNKFKQOEn.jpg'
-};
-
 export function GeneralDashboard() {
   const { isAdmin } = useUserContext();
-  const [hoverStates, setHoverStates] = useState({});
+  const [hoverStates, setHoverStates] = useState<Record<number, boolean>>({
+    1: false,
+    2: false,
+    3: false,
+    4: false
+  });
 
   const handleMouseEnter = (id: number) => {
     setHoverStates((prev) => ({ ...prev, [id]: true }));
@@ -92,7 +94,7 @@ export function GeneralDashboard() {
           <TabsContent value="overview" className="space-y-4">
             <Carousel>
               <CarouselContent>
-                {articles.map((article) => {
+                {articles.map((article: Article) => {
                   return (
                     <CarouselItem
                       key={article.id}
@@ -100,7 +102,7 @@ export function GeneralDashboard() {
                       onMouseEnter={() => handleMouseEnter(article.id)}
                       onMouseLeave={() => handleMouseLeave(article.id)}
                     >
-                      <Link href={'#'} passHref>
+                      <Link href={`/articles/${article.id}`} passHref>
                         <Card className="mx-auto w-full max-w-sm transform overflow-hidden transition-all duration-300 ease-in-out hover:shadow-lg">
                           <CardContent className="relative p-0">
                             <Image
