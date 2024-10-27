@@ -140,6 +140,7 @@ export default function BenefitsMain() {
               <Button
                 className="w-full"
                 variant={'outline'}
+                type={'button'}
                 onClick={() => alert(`Reclamado ${coupon.name}!`)}
               >
                 Obtener
