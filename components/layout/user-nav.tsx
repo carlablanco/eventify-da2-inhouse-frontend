@@ -13,12 +13,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
+import Cookies from 'js-cookie';
 
 export function UserNav() {
   const { user, setUser, setIsLogged } = useUserContext();
   const router = useRouter();
 
   const handleSignOut = () => {
+    Cookies.remove('token');
     sessionStorage.clear();
     setUser({});
     setIsLogged(false);
