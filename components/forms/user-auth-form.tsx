@@ -50,13 +50,17 @@ function UserAuthForm() {
     defaultValues
   });
 
-  const onSubmit = async (formValues: UserFormValue) => {
+  const onSubmit = async (
+    formValues: UserFormValue,
+    event: React.FormEvent
+  ) => {
+    event.preventDefault();
     setLoading(true);
 
     try {
       const data = await loginUser(formValues);
       sessionStorage.setItem('user', JSON.stringify(data.user));
-      Cookies.set('token', data.token, { expires: 7, path: '/' }); // Guarda el token en una cookie con expiración de 7 días
+      Cookies.set('token', data.token, { expires: 7, path: '/' });
       setUser(data.user);
       setToken(data.token);
       setCheck(true);
@@ -80,7 +84,12 @@ function UserAuthForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
+      <form
+        onSubmit={(event) =>
+          form.handleSubmit((data) => onSubmit(data, event))(event)
+        }
+        className="w-full space-y-2"
+      >
         <FormField
           control={form.control}
           name="email"
