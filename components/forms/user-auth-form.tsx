@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useToast } from '@/components/ui/use-toast';
+import Cookies from 'js-cookie';
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
@@ -49,7 +50,7 @@ function UserAuthForm() {
     try {
       const data = await loginUser(formValues);
       sessionStorage.setItem('user', JSON.stringify(data.user));
-      sessionStorage.setItem('token', data.token);
+      Cookies.set('token', data.token, { expires: 7, path: '/' }); // Guarda el token en una cookie con expiración de 7 días
       setUser(data.user);
       setToken(data.token);
       setCheck(true);
