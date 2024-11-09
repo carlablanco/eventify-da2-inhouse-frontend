@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 interface UserContextType {
   user: Record<string, any>;
@@ -35,7 +36,7 @@ export const UserProvider = ({ children }: any) => {
     user.modules?.artistas.includes('admin');
 
   useEffect(() => {
-    const storedToken = sessionStorage.getItem('token');
+    const storedToken = Cookies.get('token'); // Lee el token de la cookie
     const storedUser = sessionStorage.getItem('user');
     const currentPath =
       typeof window !== 'undefined' ? window.location.pathname : '';
@@ -45,16 +46,13 @@ export const UserProvider = ({ children }: any) => {
     if (!storedToken && currentPath !== '/') {
       router.push('/');
     } else if (storedToken) {
-      fetch(
-        `http://backclusterinhouseloadbalancer-1956526135.us-east-1.elb.amazonaws.com:3001/api/v1/login/token`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ jwt: storedToken })
-        }
-      )
+      fetch(`http://backend.eventify:3001/api/v1/login/token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ jwt: storedToken })
+      })
         .then((response) => {
           const isValid = response.status === 200;
           console.log('Token');
