@@ -39,7 +39,7 @@ export const UserProvider = ({ children }: any) => {
     if (!storedToken && currentPath !== '/') {
       router.push('/');
     } else if (storedToken) {
-      fetch(`http://backend.eventify:3001/api/v1/login/token`, {
+      fetch(`https://back.intranet.deliver.ar:3001/api/v1/login/token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
