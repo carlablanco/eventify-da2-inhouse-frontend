@@ -5,6 +5,7 @@ export interface LoginResponse {
     name: string;
   };
   token: string;
+  redirectUrl?: string;
 }
 
 export interface LoginRequest {
@@ -15,13 +16,16 @@ export interface LoginRequest {
 export async function loginUser(
   credentials: LoginRequest
 ): Promise<LoginResponse> {
-  const response = await fetch('http://backend.eventify:3001/api/v1/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(credentials)
-  });
+  const response = await fetch(
+    'https://back.intranet.deliver.ar:3001/api/v1/login',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    }
+  );
 
   const data = await response.json();
 
@@ -34,13 +38,15 @@ export async function loginUser(
 
 //TBC
 export async function getUser(id: string) {
-  return await fetch(`http://backend.eventify:3001/api/v1/users/${id}`);
+  return await fetch(
+    `https://back.intranet.deliver.ar:3001/api/v1/users/${id}`
+  );
 }
 
 export async function getUsers(page?: number) {
   const response = await fetch(
-    `http://backend.eventify:3001/api/v1/users?page=1`
-  ); //${(page)?page:1}
+    `https://back.intranet.deliver.ar:3001/api/v1/users?page=1`
+  );
   const data = await response.json();
 
   if (!response.ok) {

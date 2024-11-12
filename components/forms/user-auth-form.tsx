@@ -37,6 +37,7 @@ function UserAuthForm() {
   const [check, setCheck] = useState(false);
   const { setUser, setToken, isLogged, user } = useUserContext();
   const router = useRouter();
+  const [redirectUrl, setRedirectUrl] = useState('/dashboard');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -60,6 +61,7 @@ function UserAuthForm() {
     try {
       const data = await loginUser(formValues);
       sessionStorage.setItem('user', JSON.stringify(data.user));
+      data.redirectUrl ? setRedirectUrl(data.redirectUrl) : '/dashboard';
       Cookies.set('token', data.token, { expires: 7, path: '/' });
       setUser(data.user);
       setToken(data.token);
@@ -78,7 +80,7 @@ function UserAuthForm() {
 
   useEffect(() => {
     if (check) {
-      router.push('/dashboard');
+      router.push(`${redirectUrl}`);
     }
   }, [check]);
 
