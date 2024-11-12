@@ -40,4 +40,4 @@ jobs:
           echo "region = us-east-1" >> ~/.aws/config
       - name: Copy files to S3
         run: |
-          aws s3 sync ./out s3://eventify-inhouse-frontend
+          aws s3 sync ./out s3://intranet.deliver.ar
