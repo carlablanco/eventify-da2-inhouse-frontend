@@ -38,6 +38,12 @@ export const navItems: NavItem[] = [
     label: 'profile'
   },
   {
+    title: 'Panel de Administrador',
+    href: '/dashboard/admin',
+    icon: 'kanban',
+    label: 'settings'
+  },
+  {
     title: 'Beneficios',
     href: '/benefits',
     icon: 'billing',
