@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
 import { loginUser } from '@/api/api';
 import { LoaderIcon } from 'lucide-react';
@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useToast } from '@/components/ui/use-toast';
+import Cookies from 'js-cookie';
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
@@ -36,11 +37,12 @@ function UserAuthForm() {
   const [check, setCheck] = useState(false);
   const { setUser, setToken, isLogged, user } = useUserContext();
   const router = useRouter();
+  const [redirectUrl, setRedirectUrl] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
     if (isLogged) {
-      router.push('/dashboard');
+      router.push(redirectUrl);
     }
   }, [isLogged]);
 
@@ -49,13 +51,20 @@ function UserAuthForm() {
     defaultValues
   });
 
-  const onSubmit = async (formValues: UserFormValue) => {
+  const onSubmit = async (
+    formValues: UserFormValue,
+    event: React.FormEvent
+  ) => {
+    event.preventDefault();
     setLoading(true);
 
     try {
       const data = await loginUser(formValues);
       sessionStorage.setItem('user', JSON.stringify(data.user));
-      sessionStorage.setItem('token', data.token);
+      data.redirectUrl
+        ? setRedirectUrl(data.redirectUrl)
+        : setRedirectUrl('/dashboard');
+      Cookies.set('token', data.token, { expires: 7, path: '/' });
       setUser(data.user);
       setToken(data.token);
       setCheck(true);
@@ -73,13 +82,18 @@ function UserAuthForm() {
 
   useEffect(() => {
     if (check) {
-      router.push('/dashboard');
+      router.push(`${redirectUrl}`);
     }
   }, [check]);
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
+      <form
+        onSubmit={(event) =>
+          form.handleSubmit((data) => onSubmit(data, event))(event)
+        }
+        className="w-full space-y-2"
+      >
         <FormField
           control={form.control}
           name="email"

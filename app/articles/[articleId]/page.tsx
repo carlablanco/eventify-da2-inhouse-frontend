@@ -7,6 +7,15 @@ const breadcrumbItems = [
   { title: 'Artículo', link: '' }
 ];
 
+export async function generateStaticParams() {
+  // Recupera los datos reales desde tu API o base de datos
+  const articles = [{ id: '1' }, { id: '2' }, { id: '3' }];
+
+  return articles.map((article) => ({
+    articleId: article.id
+  }));
+}
+
 export default function page() {
   return (
     <PageContainer scrollable={true}>
