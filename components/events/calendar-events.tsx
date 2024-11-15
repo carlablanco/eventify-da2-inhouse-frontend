@@ -170,9 +170,7 @@ export default function CalendarEvents({
                 </div>
               ))
             ) : (
-              <p className="text-center text-primary">
-                No hay eventos para esta fecha.
-              </p>
+              <p className="text-center">No hay eventos para esta fecha.</p>
             )}
           </div>
         </div>
