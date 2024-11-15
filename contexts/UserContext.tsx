@@ -61,6 +61,8 @@ export const UserProvider = ({ children }: any) => {
             console.log('Token válido, usuario autenticado');
           } else {
             console.log('Token inválido o expirado');
+            Cookies.remove('token');
+            sessionStorage.clear();
             if (currentPath !== '/') {
               router.push('/');
             }
@@ -69,6 +71,8 @@ export const UserProvider = ({ children }: any) => {
         .catch((error) => {
           console.log('Error al validar el token:', error);
           setIsLogged(false);
+          Cookies.remove('token');
+          sessionStorage.clear();
           if (currentPath !== '/') {
             router.push('/');
           }
