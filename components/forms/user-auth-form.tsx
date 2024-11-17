@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
 import { loginUser } from '@/api/api';
@@ -200,4 +200,10 @@ function UserAuthForm() {
   );
 }
 
-export default UserAuthForm;
+export default function SuspendedUserAuthForm() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <UserAuthForm />
+    </Suspense>
+  );
+}
