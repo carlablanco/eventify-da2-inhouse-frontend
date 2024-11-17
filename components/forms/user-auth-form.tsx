@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
 import { loginUser } from '@/api/api';
 import { LoaderIcon } from 'lucide-react';
@@ -17,7 +17,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useToast } from '@/components/ui/use-toast';
-import Cookies from 'js-cookie';
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
@@ -35,7 +34,7 @@ type UserFormValue = z.infer<typeof formSchema>;
 function UserAuthForm() {
   const [loading, setLoading] = useState(false);
   const [check, setCheck] = useState(false);
-  const { setUser, setToken, isLogged, user } = useUserContext();
+  const { setUser, setToken, isLogged } = useUserContext();
   const router = useRouter();
   const [redirectUrl, setRedirectUrl] = useState('');
   const { toast } = useToast();
@@ -51,20 +50,14 @@ function UserAuthForm() {
     defaultValues
   });
 
-  const onSubmit = async (
-    formValues: UserFormValue,
-    event: React.FormEvent
-  ) => {
-    event.preventDefault();
+  const onSubmit = async (formValues: UserFormValue) => {
     setLoading(true);
-
     try {
       const data = await loginUser(formValues);
       sessionStorage.setItem('user', JSON.stringify(data.user));
       data.redirectUrl
         ? setRedirectUrl(data.redirectUrl)
         : setRedirectUrl('/dashboard');
-      Cookies.set('token', data.token, { expires: 7, path: '/' });
       setUser(data.user);
       setToken(data.token);
       setCheck(true);
@@ -88,12 +81,7 @@ function UserAuthForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={(event) =>
-          form.handleSubmit((data) => onSubmit(data, event))(event)
-        }
-        className="w-full space-y-2"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
         <FormField
           control={form.control}
           name="email"
