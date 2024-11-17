@@ -4,8 +4,12 @@ export type User = {
   mail: string;
   modules: {
     eda: string[];
-    hr: string[];
-    marketing: string[];
+    analitica: string[];
+    crypto: string[];
+    intranet: string[];
+    wallet: string[];
+    ventas: string[];
+    artistas: string[];
   };
   dn: string;
   sn: string;
@@ -56,8 +60,7 @@ export const actualUsersMocked = [
     mail: 'Kerrin.Casimir@gmail.com',
     modules: {
       eda: ['admin'],
-      hr: ['admin'],
-      marketing: ['admin']
+      artistas: ['admin']
     },
     dn: 'cn=Kerrin.Casimir@gmail.com,ou=usuarios,ou=eventify_sa,dc=ec2,dc=internal',
     sn: 'Casimir',
@@ -88,8 +91,7 @@ export const actualUsersMocked = [
     mail: 'Rhoda.Garbe@gmail.com',
     modules: {
       eda: ['admin'],
-      hr: ['admin'],
-      marketing: ['admin']
+      artistas: ['admin']
     },
     dn: 'cn=Rhoda.Garbe@gmail.com,ou=usuarios,ou=eventify_sa,dc=ec2,dc=internal',
     sn: 'Garbe',
@@ -119,7 +121,7 @@ export const actualUsersMocked = [
   {
     mail: 'Concettina.Kaja@gmail.com',
     modules: {
-      marketing: ['user']
+      artistas: ['user']
     },
     dn: 'cn=Concettina.Kaja@gmail.com,ou=usuarios,ou=eventify_sa,dc=ec2,dc=internal',
     sn: 'Kaja',
@@ -134,7 +136,7 @@ export const actualUsersMocked = [
   {
     mail: 'Sharlene.Andrel@gmail.com',
     modules: {
-      marketing: ['user']
+      artistas: ['user']
     },
     dn: 'cn=Sharlene.Andrel@gmail.com,ou=usuarios,ou=eventify_sa,dc=ec2,dc=internal',
     sn: 'Andrel',
