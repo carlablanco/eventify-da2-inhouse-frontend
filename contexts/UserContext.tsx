@@ -30,10 +30,13 @@ export const UserProvider = ({ children }: any) => {
   const [token, setToken] = useState('');
   const router = useRouter();
   const isAdmin =
-    user.modules?.eda?.includes('admin') ||
-    user.modules?.marketing?.includes('admin') ||
-    user.modules?.hr?.includes('admin') ||
-    user.modules?.artistas.includes('admin');
+    user?.modules?.eda?.includes('admin') ||
+    user?.modules?.artistas?.includes('admin') ||
+    user?.modules?.ventas?.includes('admin') ||
+    user?.modules?.crypto.includes('admin') ||
+    user?.modules?.analitica.includes('admin') ||
+    user?.modules?.wallet.includes('admin') ||
+    user?.modules?.intranet.includes('admin');
 
   useEffect(() => {
     const storedToken = Cookies.get('token'); // Lee el token de la cookie

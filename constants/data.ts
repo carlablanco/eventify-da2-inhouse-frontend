@@ -4,8 +4,12 @@ export type User = {
   mail: string;
   modules: {
     eda: string[];
-    hr: string[];
-    marketing: string[];
+    analitica: string[];
+    crypto: string[];
+    intranet: string[];
+    wallet: string[];
+    ventas: string[];
+    artistas: string[];
   };
   dn: string;
   sn: string;
