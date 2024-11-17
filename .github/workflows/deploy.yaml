@@ -1,4 +1,4 @@
-name: Deploy to S3
+name: Deploy to EC2
 
 on:
   workflow_run:
@@ -28,16 +28,12 @@ jobs:
         run: pnpm install
       - name: Build
         run: npm run build
-      - name: Set up AWS Credentials
-        run: |
-          mkdir -p ~/.aws
-          echo "[default]" > ~/.aws/credentials
-          echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
-          echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
-          echo "aws_session_token = ${{ secrets.AWS_SESSION_TOKEN }}" >> ~/.aws/credentials
-
-          echo "[default]" > ~/.aws/config
-          echo "region = us-east-1" >> ~/.aws/config
-      - name: Copy files to S3
-        run: |
-          aws s3 sync ./out s3://intranet.deliver.ar
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@5.1
+        with:
+          switches: -avzr --delete --exclude '.env'
+          path: ./*
+          remote_path: /frontend/
+          remote_host: ldap.deliver.ar
+          remote_user: ubuntu
+          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
