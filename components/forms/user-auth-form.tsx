@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
 import { loginUser } from '@/api/api';
 import { LoaderIcon } from 'lucide-react';
@@ -12,6 +12,13 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,15 +26,42 @@ import * as z from 'zod';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 
+const modules = [
+  {
+    name: 'EDA',
+    url: 'eda'
+  },
+  {
+    name: 'Artistas',
+    url: 'artistas'
+  },
+  {
+    name: 'Ventas',
+    url: 'ventas'
+  },
+  {
+    name: 'Crypto',
+    url: 'crypto'
+  },
+  {
+    name: 'Analítica',
+    url: 'analitica'
+  },
+  {
+    name: 'Wallet',
+    url: 'wallet'
+  },
+  {
+    name: 'Intranet',
+    url: 'intranet'
+  }
+];
+
 const formSchema = z.object({
   email: z.string().email({ message: 'Ingresá un correo electrónico válido' }),
-  password: z.string()
+  password: z.string(),
+  redirectUrl: z.string()
 });
-
-const defaultValues = {
-  email: '',
-  password: ''
-};
 
 type UserFormValue = z.infer<typeof formSchema>;
 
@@ -38,6 +72,8 @@ function UserAuthForm() {
   const router = useRouter();
   const [redirectUrl, setRedirectUrl] = useState('');
   const { toast } = useToast();
+  const params = useSearchParams();
+  const hasRedirectUrl = params.has('redirectUrl');
 
   useEffect(() => {
     if (isLogged) {
@@ -47,10 +83,17 @@ function UserAuthForm() {
 
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),
-    defaultValues
+    defaultValues: {
+      email: '',
+      password: '',
+      redirectUrl: hasRedirectUrl
+        ? (params.get('redirectUrl') ?? undefined)
+        : ''
+    }
   });
 
   const onSubmit = async (formValues: UserFormValue) => {
+    console.log(formValues, 'OALSD');
     setLoading(true);
     try {
       const data = await loginUser(formValues);
@@ -82,6 +125,35 @@ function UserAuthForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-2">
+        {!hasRedirectUrl && (
+          <FormField
+            control={form.control}
+            name="redirectUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Módulo</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecciona un módulo" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {modules.map((module) => (
+                      <SelectItem key={module.name} value={module.name}>
+                        {module.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           control={form.control}
           name="email"
