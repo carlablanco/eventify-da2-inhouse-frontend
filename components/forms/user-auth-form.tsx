@@ -98,7 +98,8 @@ function UserAuthForm() {
       const data = await loginUser(formValues);
       const actualData = {
         ...data,
-        redirectUrl: params.get('redirectUrl') ?? '/dashboard'
+        redirectUrl:
+          params.get('redirectUrl') ?? formValues.redirectUrl ?? '/dashboard'
       };
       sessionStorage.setItem('user', JSON.stringify(actualData.user));
       setRedirectUrl(actualData.redirectUrl);
