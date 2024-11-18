@@ -18,6 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Ingresá un correo electrónico válido' }),
@@ -137,7 +138,17 @@ function UserAuthForm() {
 
 export default function SuspendedUserAuthForm() {
   return (
-    <Suspense fallback={<p>Loading...</p>}>
+    <Suspense
+      fallback={
+        <div className={'space-y-2'}>
+          <Skeleton className="h-4 w-1/3" />
+          <Skeleton className="h-9 w-full" />
+          <Skeleton className="h-4 w-1/3" />
+          <Skeleton className="h-9 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>
+      }
+    >
       <UserAuthForm />
     </Suspense>
   );
