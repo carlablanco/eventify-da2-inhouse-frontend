@@ -54,6 +54,7 @@ export const UserProvider = ({ children }: any) => {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: "include",
         body: JSON.stringify({ jwt: storedToken })
       })
         .then((response) => {
