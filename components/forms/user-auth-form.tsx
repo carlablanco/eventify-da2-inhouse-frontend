@@ -93,16 +93,17 @@ function UserAuthForm() {
   });
 
   const onSubmit = async (formValues: UserFormValue) => {
-    console.log(formValues, 'OALSD');
     setLoading(true);
     try {
       const data = await loginUser(formValues);
-      sessionStorage.setItem('user', JSON.stringify(data.user));
-      data.redirectUrl
-        ? setRedirectUrl(data.redirectUrl)
-        : setRedirectUrl('/dashboard');
-      setUser(data.user);
-      setToken(data.token);
+      const actualData = {
+        ...data,
+        redirectUrl: params.get('redirectUrl') ?? '/dashboard'
+      };
+      sessionStorage.setItem('user', JSON.stringify(actualData.user));
+      setRedirectUrl(actualData.redirectUrl);
+      setUser(actualData.user);
+      setToken(actualData.token);
       setCheck(true);
     } catch (err: any) {
       toast({
@@ -110,7 +111,7 @@ function UserAuthForm() {
         title: 'Uh oh! Algo salió mal.',
         description: 'Hubo un problema al ingresar. Intentá nuevamente.'
       });
-      console.error('Login failed:', err);
+      console.error('Error en el login: ', err);
     } finally {
       setLoading(false);
     }
