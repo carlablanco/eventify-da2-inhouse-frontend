@@ -14,13 +14,23 @@ import {
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/contexts/UserContext';
 import Cookies from 'js-cookie';
+import { useState, useEffect } from 'react';
 
+interface User {
+  [key: string]: any; // Esto es para cualquier otra propiedad que pueda existir en el objeto user
+}
 export function UserNav() {
   const { setUser, setIsLogged } = useUserContext();
   const router = useRouter();
 
-  const userString = sessionStorage.getItem('user');
-  const user = userString ? JSON.parse(userString) : null;
+  const [user, setUserFromStorage] = useState<User | null>(null); // Aquí indicamos que `user` puede ser de tipo `User` o `null`
+
+  useEffect(() => {
+    const userString = sessionStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : null;
+    setUserFromStorage(user);
+  }, []);
+
   const handleSignOut = () => {
     Cookies.remove('token');
     sessionStorage.clear();
@@ -28,6 +38,8 @@ export function UserNav() {
     setIsLogged(false);
     router.push('/');
   };
+
+  if (!user) return null; // Puedes retornar un spinner o algo mientras esperas que el usuario se cargue.
 
   return (
     <DropdownMenu>
@@ -39,9 +51,9 @@ export function UserNav() {
                 user.image ??
                 'https://static1.personality-database.com/profile_images/8f161dbce46041b98dd70044bb46ea51.png'
               }
-              alt={user.sn ?? ''}
+              alt={user.lastName ?? ''}
             />
-            <AvatarFallback>{user.sn?.[0]}</AvatarFallback>
+            <AvatarFallback>{user.lastName?.[0]}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

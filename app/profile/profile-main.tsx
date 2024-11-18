@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -38,45 +38,51 @@ const formSchema = z.object({
 
 type UserProfileFormValue = z.infer<typeof formSchema>;
 
-let values = {
-  name: 'Juan Pérez',
-  email: 'juan.perez@example.com',
-  uid: '12345',
-  role: 'Administrador',
-  module: 'Recursos Humanos',
-  status: 'Activo',
-  validated: true
-};
-
 function UserProfile() {
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<any>(null); // Estado para almacenar el usuario
   const { toast } = useToast();
-  const userString = sessionStorage.getItem('user');
-  const user = userString ? JSON.parse(userString) : null;
-  if (user) {
-    // Concatenar nombres de módulos
-    const modules = user.modules.map((mod: any) => mod.module).join(', ');
 
-    // Concatenar roles por módulo
-    const roles = user.modules
-      .map((mod: any) => `${mod.module}: ${mod.roles.join(', ')}`)
-      .join(', ');
-
-    values = {
-      name: `${user.firstName} ${user.lastName}`,
-      email: user.email,
-      uid: user.id,
-      role: roles,
-      module: modules,
-      status: 'Activo',
-      validated: true
-    };
-  }
+  // Cargar el usuario desde sessionStorage al montar el componente
+  useEffect(() => {
+    const userString = sessionStorage.getItem('user');
+    if (userString) {
+      const parsedUser = JSON.parse(userString);
+      setUser(parsedUser);
+    }
+  }, []);
 
   const form = useForm<UserProfileFormValue>({
     resolver: zodResolver(formSchema),
-    values
+    defaultValues: {
+      name: '',
+      email: '',
+      uid: '',
+      role: '',
+      module: '',
+      status: '',
+      validated: false
+    }
   });
+
+  useEffect(() => {
+    if (user) {
+      const modules = user.modules.map((mod: any) => mod.module).join(', ');
+      const roles = user.modules
+        .map((mod: any) => `${mod.module}: ${mod.roles.join(', ')}`)
+        .join(', ');
+
+      form.reset({
+        name: `${user.firstName} ${user.lastName}`,
+        email: user.email,
+        uid: user.id,
+        role: roles,
+        module: modules,
+        status: 'Activo',
+        validated: true
+      });
+    }
+  }, [user, form]);
 
   const onSubmit = async (formValues: UserProfileFormValue) => {
     setLoading(true);
@@ -116,7 +122,7 @@ function UserProfile() {
               </Tooltip>
             </TooltipProvider>
           </div>
-          <p className="text-sm">{values.role.toUpperCase()}</p>
+          <p className="text-sm">{form.getValues('role').toUpperCase()}</p>
         </div>
       </div>
       <Form {...form}>
