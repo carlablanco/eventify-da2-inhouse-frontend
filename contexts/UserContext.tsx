@@ -39,52 +39,38 @@ export const UserProvider = ({ children }: any) => {
     user?.modules?.intranet?.includes('admin');
 
   useEffect(() => {
-    const storedToken = Cookies.get('token'); // Lee el token de la cookie
-    const storedUser = sessionStorage.getItem('user');
     const currentPath =
       typeof window !== 'undefined' ? window.location.pathname : '';
-
-    setToken(storedToken ?? '');
-
-    if (!storedToken && currentPath !== '/') {
-      router.push('/');
-    } else if (storedToken) {
-      fetch(`https://back.intranet.deliver.ar:3001/api/v1/login/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: "include",
-        body: JSON.stringify({ jwt: storedToken })
-      })
-        .then((response) => {
-          const isValid = response.status === 200;
-          console.log('Token');
-          setIsLogged(isValid);
-          if (isValid) {
-            console.log('Token válido, usuario autenticado');
-          } else {
-            console.log('Token inválido o expirado');
-            Cookies.remove('token');
-            sessionStorage.clear();
-            if (currentPath !== '/') {
-              router.push('/');
-            }
-          }
-        })
-        .catch((error) => {
-          console.log('Error al validar el token:', error);
-          setIsLogged(false);
+    fetch(`https://back.intranet.deliver.ar:3001/api/v1/login/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    })
+      .then((response) => {
+        const isValid = response.status === 200;
+        setIsLogged(isValid);
+        if (isValid) {
+          console.log('Token válido, usuario autenticado');
+        } else {
+          console.log('Token inválido o expirado');
           Cookies.remove('token');
           sessionStorage.clear();
           if (currentPath !== '/') {
             router.push('/');
           }
-        });
-    }
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+        }
+      })
+      .catch((error) => {
+        console.log('Error al validar el token:', error);
+        setIsLogged(false);
+        Cookies.remove('token');
+        sessionStorage.clear();
+        if (currentPath !== '/') {
+          router.push('/');
+        }
+      });
   }, [router]);
 
   useEffect(() => {

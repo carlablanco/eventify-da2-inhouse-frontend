@@ -16,9 +16,11 @@ import { useUserContext } from '@/contexts/UserContext';
 import Cookies from 'js-cookie';
 
 export function UserNav() {
-  const { user, setUser, setIsLogged } = useUserContext();
+  const { setUser, setIsLogged } = useUserContext();
   const router = useRouter();
 
+  const userString = sessionStorage.getItem('user');
+  const user = userString ? JSON.parse(userString) : null;
   const handleSignOut = () => {
     Cookies.remove('token');
     sessionStorage.clear();
@@ -46,9 +48,9 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.sn}</p>
+            <p className="text-sm font-medium leading-none">{user.firstName}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              {user.cn}
+              {user.lastName}
             </p>
           </div>
         </DropdownMenuLabel>
