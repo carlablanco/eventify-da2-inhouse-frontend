@@ -17,7 +17,6 @@ import { Button } from '@/components/ui/button';
 import { LoaderIcon, VerifiedIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
-import { useUserContext } from '@/contexts/UserContext';
 import {
   Tooltip,
   TooltipProvider,
@@ -25,6 +24,7 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip';
 import Image from 'next/image';
+import React from 'react';
 
 const formSchema = z.object({
   uid: z.string(),
@@ -51,22 +51,28 @@ let values = {
 function UserProfile() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const { user } = useUserContext();
+  const userString = sessionStorage.getItem('user');
+  const user = userString ? JSON.parse(userString) : null;
   if (user) {
-    const module1 = user.modules ? Object.keys(user.modules)[0] : ' ';
-    const [role] =
-      user.modules && user.modules[module1] ? user.modules[module1] : ' ';
+    // Concatenar nombres de módulos
+    const modules = user.modules.map((mod: any) => mod.module).join(', ');
+
+    // Concatenar roles por módulo
+    const roles = user.modules
+      .map((mod: any) => `${mod.module}: ${mod.roles.join(', ')}`)
+      .join(', ');
 
     values = {
-      name: user.givenName + ' ' + user.sn,
-      email: user.cn,
-      uid: user.uid,
-      role: role,
-      module: module1,
+      name: `${user.firstName} ${user.lastName}`,
+      email: user.email,
+      uid: user.id,
+      role: roles,
+      module: modules,
       status: 'Activo',
       validated: true
     };
   }
+
   const form = useForm<UserProfileFormValue>({
     resolver: zodResolver(formSchema),
     values
@@ -97,7 +103,7 @@ function UserProfile() {
         <div className={'flex flex-col'}>
           <div className={'flex gap-2'}>
             <h2 className="text-xl font-semibold">
-              {user?.givenName + ' ' + user?.sn ?? ''}
+              {user?.firstName + ' ' + user?.lastName}
             </h2>
             <TooltipProvider>
               <Tooltip>
@@ -145,34 +151,40 @@ function UserProfile() {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Rol</FormLabel>
-                <FormControl>
-                  <Input readOnly {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="module"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Módulo</FormLabel>
-                <FormControl>
-                  <Input readOnly {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {user?.modules.map((mod: any, index: string) => (
+            <React.Fragment key={index}>
+              <FormField
+                control={form.control}
+                name="module"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Módulo {index + 1}</FormLabel>
+                    <FormControl>
+                      <Input readOnly {...field} value={mod.module} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Roles del Módulo {index + 1}</FormLabel>
+                    <FormControl>
+                      <Input
+                        readOnly
+                        {...field}
+                        value={mod.roles.join(', ')} // Combina roles en una sola cadena
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </React.Fragment>
+          ))}
 
           <FormField
             control={form.control}
