@@ -33,10 +33,10 @@ export const UserProvider = ({ children }: any) => {
     user?.modules?.eda?.includes('admin') ||
     user?.modules?.artistas?.includes('admin') ||
     user?.modules?.ventas?.includes('admin') ||
-    user?.modules?.crypto.includes('admin') ||
-    user?.modules?.analitica.includes('admin') ||
-    user?.modules?.wallet.includes('admin') ||
-    user?.modules?.intranet.includes('admin');
+    user?.modules?.crypto?.includes('admin') ||
+    user?.modules?.analitica?.includes('admin') ||
+    user?.modules?.wallet?.includes('admin') ||
+    user?.modules?.intranet?.includes('admin');
 
   useEffect(() => {
     const storedToken = Cookies.get('token'); // Lee el token de la cookie
