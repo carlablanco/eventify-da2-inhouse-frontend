@@ -32,8 +32,9 @@ jobs:
         uses: burnett01/rsync-deployments@5.1
         with:
           switches: -avzr --delete --exclude '.env'
-          path: ./*
-          remote_path: /frontend/
+          path: ./out/
+          remote_path: /var/www/html/
           remote_host: ldap.deliver.ar
           remote_user: ubuntu
           remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+
