@@ -31,7 +31,7 @@ jobs:
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.1
         with:
-          switches: -avzr --delete --exclude '.env'
+          switches: -avzr --no-times --delete --exclude '.env'
           path: ./out/
           remote_path: /var/www/html/
           remote_host: ldap.deliver.ar
