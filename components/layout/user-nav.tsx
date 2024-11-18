@@ -31,11 +31,18 @@ export function UserNav() {
     setUserFromStorage(user);
   }, []);
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     Cookies.remove('token');
     sessionStorage.clear();
     setUser({});
     setIsLogged(false);
+    await fetch('https://back.intranet.deliver.ar:3001/api/v1/login/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
     router.push('/');
   };
 
