@@ -8,6 +8,7 @@ import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
 import { Heading } from '@/components/ui/heading';
 import moment from 'moment';
+import { getModulesHealthStatus } from '@/api/api';
 
 const breadcrumbItems = [
   { title: 'Panel de Administrador', link: '/dashboard/admin' }
@@ -30,27 +31,6 @@ const HealthBar = ({ history }: any) => {
   );
 };
 
-const fetchHealthStatus = async () => {
-  const modules = [
-    'Ventas',
-    'EDA',
-    'Blockchain',
-    'Web',
-    'API',
-    'Database',
-    'Cache',
-    'Auth'
-  ];
-
-  return await Promise.all(
-    modules.map((module) => ({
-      name: module,
-      isHealthy: Math.random() > 0.2,
-      healthHistory: Array.from({ length: 10 }, () => Math.random() > 0.2)
-    }))
-  );
-};
-
 export default function Dashboard() {
   const [healthStatus, setHealthStatus] = useState<
     {
@@ -68,7 +48,7 @@ export default function Dashboard() {
       name: string;
       isHealthy: boolean;
       healthHistory: boolean[];
-    }[] = await fetchHealthStatus();
+    }[] = await getModulesHealthStatus();
     setHealthStatus(newStatus);
     setLastUpdated(moment.now());
     setIsLoading(false);

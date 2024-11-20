@@ -23,7 +23,7 @@ export async function loginUser(
       headers: {
         'Content-Type': 'application/json'
       },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify(credentials)
     }
   );
@@ -55,4 +55,51 @@ export async function getUsers(page?: number) {
   }
 
   return data;
+}
+
+export async function getModulesHealthStatus() {
+  const modules = [
+    {
+      name: 'EDA',
+      url: 'https://edaapi.deliver.ar/v1/health'
+    },
+    {
+      name: 'Ventas',
+      url: 'https://ventasapi.deliver.ar/v1/health'
+    },
+    {
+      name: 'Artistas',
+      url: 'https://artistasapi.deliver.ar/v1/health'
+    },
+    {
+      name: 'Crypto',
+      url: 'https://cryptoapi.deliver.ar/v1/health'
+    },
+    {
+      name: 'Analitica',
+      url: 'https://analiticaapi.deliver.ar/v1/health'
+    },
+    {
+      name: 'Wallet',
+      url: 'https://walletapi.deliver.ar/v1/health'
+    },
+    {
+      name: 'Intranet',
+      url: 'https://intranetapi.deliver.ar/v1/health'
+    }
+  ];
+
+  return await Promise.all(
+    modules.map(async (module) => {
+      const response = await fetch(module.url).catch(() => ({
+        json: () => ({ ok: false })
+      }));
+      const data = await response.json();
+      return {
+        name: module.name,
+        isHealthy: data.ok,
+        healthHistory: Array.from({ length: 10 }, () => Math.random() > 0.2)
+      };
+    })
+  );
 }
