@@ -46,7 +46,7 @@ export default function Sidebar({ className }: SidebarProps) {
           <div className="mt-3 space-y-1">
             <DashboardNav
               items={navItems.filter((item) =>
-                user.uid === 'danUID'
+                user?.uid?.toString() === '101'
                   ? item
                   : item.title !== 'Panel de Administrador'
               )}
