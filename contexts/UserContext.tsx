@@ -29,14 +29,9 @@ export const UserProvider = ({ children }: any) => {
   const [isLogged, setIsLogged] = useState(false);
   const [token, setToken] = useState('');
   const router = useRouter();
-  const isAdmin =
-    user?.modules?.eda?.includes('admin') ||
-    user?.modules?.artistas?.includes('admin') ||
-    user?.modules?.ventas?.includes('admin') ||
-    user?.modules?.crypto?.includes('admin') ||
-    user?.modules?.analitica?.includes('admin') ||
-    user?.modules?.wallet?.includes('admin') ||
-    user?.modules?.intranet?.includes('admin');
+  const isAdmin = user?.modules?.some((module: { roles: string | string[] }) =>
+    module.roles.includes('consultor')
+  );
 
   useEffect(() => {
     const currentPath =
@@ -73,6 +68,12 @@ export const UserProvider = ({ children }: any) => {
       });
   }, [router]);
 
+  useEffect(() => {
+    const userStorage = sessionStorage.getItem('user');
+    if (userStorage) {
+      setUser(JSON.parse(userStorage));
+    }
+  }, []);
   useEffect(() => {
     if (token) {
       const isValidToken = token.length > 10;

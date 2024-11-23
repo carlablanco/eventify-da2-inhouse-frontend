@@ -7,6 +7,7 @@ import { AlertCircleIcon } from 'lucide-react';
 
 export const logsColumns: ColumnDef<User>[] = [
   {
+    id: 'event',
     accessorKey: 'event',
     header: 'TYPE',
     cell: (item: any) => {
@@ -14,36 +15,42 @@ export const logsColumns: ColumnDef<User>[] = [
         return (
           <div className="flex justify-center space-x-2">
             <AlertCircleIcon className="text-red-500" />
-            <span>{item.row.getValue() as string}</span>
+            <span>{item.row.getValue('event') as string}</span>
           </div>
         );
       }
     }
   },
   {
+    id: '_id',
     accessorKey: '_id',
     header: 'ID'
   },
   {
+    id: 'username',
     accessorKey: 'username',
     header: 'USERNAME'
   },
   {
+    id: 'action',
     accessorKey: 'action',
     header: 'ACCION'
   },
   {
+    id: 'isSuspicious',
     accessorKey: 'isSuspicious',
     header: 'ACTIVIDAD SOSPECHOSA',
     cell: (item) => (item.getValue() ? 'SI' : 'NO')
   },
   {
+    id: 'timestamp',
     accessorKey: 'timestamp',
     header: 'HORARIO',
     cell: (item) =>
       moment(item.getValue() as string).format('DD/MM/YYYY HH:mm:ss')
   },
   {
+    id: 'modules',
     accessorKey: 'modules',
     header: 'MODULOS',
     cell: (item) => {
