@@ -65,7 +65,7 @@ export async function getModulesHealthStatus() {
     },
     {
       name: 'Ventas',
-      url: 'https://ventasapi.deliver.ar/v1/health'
+      url: 'https://eventify-sales.deliver.ar:3000/health'
     },
     {
       name: 'Artistas',
@@ -73,7 +73,7 @@ export async function getModulesHealthStatus() {
     },
     {
       name: 'Crypto',
-      url: 'https://cryptoapi.deliver.ar/v1/health'
+      url: 'https://blockchainback.deliver.ar/blockchain/health'
     },
     {
       name: 'Analitica',
@@ -85,7 +85,7 @@ export async function getModulesHealthStatus() {
     },
     {
       name: 'Intranet',
-      url: 'https://intranetapi.deliver.ar/v1/health'
+      url: 'https://back.intranet.deliver.ar:3001/api/v1/health'
     }
   ];
 
