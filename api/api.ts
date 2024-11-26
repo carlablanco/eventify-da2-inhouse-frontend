@@ -65,23 +65,19 @@ export async function getModulesHealthStatus() {
     },
     {
       name: 'Ventas',
-      url: 'https://eventify-sales.deliver.ar:3000/health'
+      url: 'https://eventify-sales.deliver.ar/health'
     },
     {
-      name: 'Artistas',
-      url: 'https://artistasapi.deliver.ar/v1/health'
-    },
-    {
-      name: 'Crypto',
+      name: 'Blockchain',
       url: 'https://blockchainback.deliver.ar/blockchain/health'
     },
     {
       name: 'Analitica',
-      url: 'https://analiticaapi.deliver.ar/v1/health'
+      url: 'https://analyticsapi.deliver.ar/api/health/'
     },
     {
       name: 'Wallet',
-      url: 'https://walletapi.deliver.ar/v1/health'
+      url: 'https://wallet-backend.deliver.ar/health'
     },
     {
       name: 'Intranet',
@@ -89,15 +85,38 @@ export async function getModulesHealthStatus() {
     }
   ];
 
-  return await Promise.all(
+  const fetchWithTimeout = async (url: string, timeout: number) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    try {
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      return response;
+    } catch (error) {
+      console.error(`Error fetching ${url}:`, error);
+      return null;
+    }
+  };
+
+  return Promise.all(
     modules.map(async (module) => {
-      const response = await fetch(module.url).catch(() => ({
-        json: () => ({ ok: false })
-      }));
-      const data = await response.json();
+      const response = await fetchWithTimeout(module.url, 1500);
+      if (!response) {
+        return {
+          name: module.name,
+          isHealthy: false,
+          healthHistory: Array.from({ length: 10 }, () => false)
+        };
+      }
+
+      const data = await response.json().catch(() => ({}));
       return {
         name: module.name,
-        isHealthy: data.ok,
+        isHealthy:
+          data?.ok ||
+          data?.message?.includes('up and running') ||
+          data?.message?.includes('healthy'),
         healthHistory: Array.from({ length: 10 }, () => Math.random() > 0.2)
       };
     })
