@@ -78,10 +78,6 @@ export async function getModulesHealthStatus() {
     {
       name: 'Wallet',
       url: 'https://wallet-backend.deliver.ar/health'
-    },
-    {
-      name: 'Intranet',
-      url: 'https://back.intranet.deliver.ar:3001/api/v1/health'
     }
   ];
 
