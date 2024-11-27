@@ -118,3 +118,14 @@ export async function getModulesHealthStatus() {
     })
   );
 }
+
+export async function getUserLoginLogs(): Promise<any> {
+  const response = await fetch(`https://intranet.deliver.ar:3001/api/v1/logs`);
+  const data = await response.json();
+
+  if (!response.ok) {
+    return [] as any;
+  }
+
+  return data;
+}
