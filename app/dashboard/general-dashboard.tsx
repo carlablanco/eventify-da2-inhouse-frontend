@@ -18,6 +18,7 @@ import { actualLogsData } from '@/constants/data';
 import { useUserContext } from '@/contexts/UserContext';
 import Link from 'next/link';
 import CalendarEvents from '@/components/events/calendar-events';
+import { getUserLoginLogs } from '@/api/api';
 
 interface Article {
   id: number;
@@ -77,6 +78,13 @@ export function GeneralDashboard() {
   const handleMouseLeave = (id: number) => {
     setHoverStates((prev) => ({ ...prev, [id]: false }));
   };
+
+  const logsData = getUserLoginLogs()
+    .then((data) => data)
+    .catch((error) => {
+      console.error('Error al obtener los logs:', error);
+      return actualLogsData;
+    });
 
   return (
     <>
@@ -251,7 +259,7 @@ export function GeneralDashboard() {
             <div className="space-y-2">
               <CustomizedUserTable
                 columns={logsColumns}
-                data={actualLogsData}
+                data={logsData}
                 searchKey={'username'}
               />
             </div>
