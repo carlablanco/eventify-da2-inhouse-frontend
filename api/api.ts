@@ -37,7 +37,6 @@ export async function loginUser(
   return data;
 }
 
-//TBC
 export async function getUser(id: string) {
   return await fetch(
     `https://back.intranet.deliver.ar:3001/api/v1/users/${id}`
@@ -78,6 +77,10 @@ export async function getModulesHealthStatus() {
     {
       name: 'Wallet',
       url: 'https://wallet-backend.deliver.ar/health'
+    },
+    {
+      name: 'Ventas',
+      url: 'https://api.artists.deliver.ar/health'
     }
   ];
 
@@ -122,7 +125,7 @@ export async function getModulesHealthStatus() {
 export async function getUserLoginLogs(): Promise<any> {
   try {
     const response = await fetch(
-      'https://intranet.deliver.ar:3001/api/v1/logs'
+      'https://back.intranet.deliver.ar:3001/api/v1/logs'
     );
     if (!response.ok) {
       throw new Error('Error fetching logs');
