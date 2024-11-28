@@ -120,12 +120,16 @@ export async function getModulesHealthStatus() {
 }
 
 export async function getUserLoginLogs(): Promise<any> {
-  const response = await fetch(`https://intranet.deliver.ar:3001/api/v1/logs`);
-  const data = await response.json();
-
-  if (!response.ok) {
-    return [] as any;
+  try {
+    const response = await fetch(
+      'https://intranet.deliver.ar:3001/api/v1/logs'
+    );
+    if (!response.ok) {
+      throw new Error('Error fetching logs');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching logs:', error);
+    return [];
   }
-
-  return data;
 }
