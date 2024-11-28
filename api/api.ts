@@ -125,7 +125,10 @@ export async function getModulesHealthStatus() {
 export async function getUserLoginLogs(): Promise<any> {
   try {
     const response = await fetch(
-      'https://back.intranet.deliver.ar:3001/api/v1/logs'
+      'https://back.intranet.deliver.ar:3001/api/v1/logs',
+      {
+        credentials: 'include'
+      }
     );
     if (!response.ok) {
       throw new Error('Error fetching logs');
