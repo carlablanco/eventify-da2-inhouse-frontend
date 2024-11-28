@@ -10,11 +10,9 @@ import {
   CarouselItem
 } from '@/components/ui/carousel';
 import { BarGraph } from '@/components/charts/bar-graph';
-
 import { Separator } from '@/components/ui/separator';
 import CustomizedUserTable from '@/components/tables/customized-user-table';
 import { logsColumns } from '@/components/tables/logs-tables/log-columns';
-import { actualLogsData } from '@/constants/data';
 import { useUserContext } from '@/contexts/UserContext';
 import Link from 'next/link';
 import CalendarEvents from '@/components/events/calendar-events';
@@ -64,7 +62,7 @@ const articles: Record<string, any> = [
 
 export function GeneralDashboard() {
   const { isAdmin } = useUserContext();
-  const [logsData, setLogsData] = useState(actualLogsData);
+  const [logsData, setLogsData] = useState([]);
   const [hoverStates, setHoverStates] = useState<Record<number, boolean>>({
     1: false,
     2: false,
@@ -88,6 +86,20 @@ export function GeneralDashboard() {
     }
   }, [isAdmin]);
 
+  const getTotalConnections = () => logsData.length;
+
+  const getSuccessRate = () => {
+    const total = logsData.length;
+    const successful = logsData.filter((log: any) => !log.isSuspicious).length;
+    return total ? ((successful / total) * 100).toFixed(2) : '0';
+  };
+
+  const getFailureRate = () => {
+    const total = logsData.length;
+    const failed = logsData.filter((log: any) => log.isSuspicious).length;
+    return total ? ((failed / total) * 100).toFixed(2) : '0';
+  };
+
   return (
     <>
       <div className="space-y-2">
@@ -97,7 +109,7 @@ export function GeneralDashboard() {
         >
           <TabsList>
             <TabsTrigger value="analytics" disabled={!isAdmin}>
-              Analiticas
+              Analíticas
             </TabsTrigger>
             <TabsTrigger value="overview">General</TabsTrigger>
           </TabsList>
@@ -149,7 +161,7 @@ export function GeneralDashboard() {
           </TabsContent>
           <TabsContent value="analytics" className="space-y-4">
             <div className="col-span-4">
-              <BarGraph />
+              <BarGraph logsData={logsData} />
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
               <Card>
@@ -157,53 +169,11 @@ export function GeneralDashboard() {
                   <CardTitle className="text-sm font-medium">
                     Cantidad de conexiones
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+2350</div>
-                  <p className="text-xs text-muted-foreground">
-                    +180.1% el ultimo mes
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Conexiones por módulo
-                  </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">+24</div>
-                  <p className="text-xs text-muted-foreground">
-                    +20.1% el ultimo mes
-                  </p>
+                  <div className="text-2xl font-bold">
+                    {getTotalConnections()}
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -211,49 +181,19 @@ export function GeneralDashboard() {
                   <CardTitle className="text-sm font-medium">
                     Conexiones exitosas
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                  </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">99%</div>
-                  <p className="text-xs text-muted-foreground">
-                    ~0.02 fallas el último mes
-                  </p>
+                  <div className="text-2xl font-bold">{getSuccessRate()}%</div>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Conexiones fallidas
+                    Conexiones sospechosas
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                  </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">1%</div>
-                  <p className="text-xs text-muted-foreground">
-                    ~0.02 fallas el último mes
-                  </p>
+                  <div className="text-2xl font-bold">{getFailureRate()}%</div>
                 </CardContent>
               </Card>
             </div>
