@@ -12,8 +12,13 @@ export default function CustomizedUserTable({ columns, data, searchKey }: any) {
 
     const splitted = userModules?.flatMap((module: any) => module.split(' '));
 
-    return (item.modules as any[]).some((log: any) =>
-      splitted.includes(log.module?.toLowerCase())
+    return (
+      (item.modules &&
+        Array.isArray(item.modules) &&
+        (item.modules as any[])?.some((log: any) =>
+          splitted?.includes(log.module?.toLowerCase())
+        )) ??
+      false
     );
   });
 
