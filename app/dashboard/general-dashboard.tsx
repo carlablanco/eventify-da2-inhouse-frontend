@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -64,6 +64,7 @@ const articles: Record<string, any> = [
 
 export function GeneralDashboard() {
   const { isAdmin } = useUserContext();
+  const [logsData, setLogsData] = useState(actualLogsData);
   const [hoverStates, setHoverStates] = useState<Record<number, boolean>>({
     1: false,
     2: false,
@@ -79,12 +80,13 @@ export function GeneralDashboard() {
     setHoverStates((prev) => ({ ...prev, [id]: false }));
   };
 
-  const logsData = getUserLoginLogs()
-    .then((data) => data)
-    .catch((error) => {
-      console.error('Error al obtener los logs:', error);
-      return actualLogsData;
-    });
+  useEffect(() => {
+    if (isAdmin) {
+      getUserLoginLogs().then((data) => {
+        setLogsData(data);
+      });
+    }
+  }, [isAdmin]);
 
   return (
     <>

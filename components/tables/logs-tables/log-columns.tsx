@@ -45,7 +45,7 @@ export const logsColumns: ColumnDef<User>[] = [
   {
     id: 'timestamp',
     accessorKey: 'timestamp',
-    header: 'HORARIO',
+    header: 'TIMESTAMP',
     cell: (item) =>
       moment(item.getValue() as string).format('DD/MM/YYYY HH:mm:ss')
   },
