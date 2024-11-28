@@ -84,9 +84,7 @@ export default function Dashboard() {
                   <div className="mb-2 text-2xl font-bold">
                     {module.isHealthy ? 'Activo' : 'Caído'}
                   </div>
-                  <div className="mb-1 text-xs">
-                    Histórico (últimos 10 chequeos)
-                  </div>
+                  <div className="mb-1 text-xs">Histórico</div>
                   <HealthBar history={module.healthHistory} />
                 </CardContent>
               </Card>

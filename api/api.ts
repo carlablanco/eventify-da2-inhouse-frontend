@@ -89,7 +89,10 @@ export async function getModulesHealthStatus() {
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
     try {
-      const response = await fetch(url, { signal: controller.signal });
+      const response = await fetch(url, {
+        credentials: 'include',
+        signal: controller.signal
+      });
       clearTimeout(timeoutId);
       return response;
     } catch (error) {

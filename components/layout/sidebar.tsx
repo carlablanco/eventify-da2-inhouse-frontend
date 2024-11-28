@@ -17,6 +17,8 @@ export default function Sidebar({ className }: SidebarProps) {
   const { isMinimized, toggle } = useSidebar();
   const { user } = useUserContext();
 
+  console.info(user, 'User details');
+
   const handleToggle = () => {
     toggle();
   };
@@ -46,7 +48,7 @@ export default function Sidebar({ className }: SidebarProps) {
           <div className="mt-3 space-y-1">
             <DashboardNav
               items={navItems.filter((item) =>
-                user?.uid?.toString() === '101'
+                user?.email === 'danabramov@eventify.com' || user?.id === '100'
                   ? item
                   : item.title !== 'Panel de Administrador'
               )}
