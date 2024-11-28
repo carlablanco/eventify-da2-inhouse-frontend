@@ -79,7 +79,7 @@ export async function getModulesHealthStatus() {
       url: 'https://wallet-backend.deliver.ar/health'
     },
     {
-      name: 'Ventas',
+      name: 'Artistas',
       url: 'https://api.artists.deliver.ar/health'
     }
   ];
@@ -103,7 +103,7 @@ export async function getModulesHealthStatus() {
 
   return Promise.all(
     modules.map(async (module) => {
-      const response = await fetchWithTimeout(module.url, 1500);
+      const response = await fetchWithTimeout(module.url, 3000);
       if (!response) {
         return {
           name: module.name,
